@@ -22,7 +22,7 @@ public class MessagingScheduler {
 
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC, groupId = "${kafka.group.id:${random.uuid}}")
     public void checkNotice(ChangeCodeDTO code){
-        log.info("checkNotice call");
+        //log.info("checkNotice call");
         System.out.println("message = " + code);
         try{
             messagingTemplate.convertAndSend("/subscribe/notice/" + code.getRoomId(), SendCodeDTO.of(code));
