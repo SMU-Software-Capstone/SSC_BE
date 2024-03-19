@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 public class Editor {
@@ -18,15 +17,15 @@ public class Editor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
+    private String randomId;
+
+    private String userId;
+
     public Editor(String title, String randomId, String userId) {
         this.title = title;
         this.randomId = randomId;
         this.userId = userId;
     }
-
-    private String title;
-    private String randomId;
-    private String userId;
-
-
 }

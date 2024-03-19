@@ -10,9 +10,9 @@ import java.util.Date;
 @Component
 public class Util {
     //Token에서 UserId값 찾기
-    public static String getUserId(String token, String secretKey) {
+    public static Long getUserId(String token, String secretKey) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("id", String.class);
+                .getBody().get("id", Long.class);
     }
 
     public static boolean isExpired(String token, String secretKey) {
@@ -24,7 +24,7 @@ public class Util {
     private static final long expireMs = 30 * 24 * 60 * 60 * 1000L; // 토큰 만료 시간 (한 달)
 
     //아이디와 닉네임 가지고 토큰 생성.
-    public static String createJwt(String id, String secretKey) {
+    public static String createJwt(Long id, String secretKey) {
         Claims claims = Jwts.claims();
         claims.put("id", id);
 

@@ -24,7 +24,7 @@ public class EditorController {
 
     @GetMapping("/create")
     public String createRoom(@CookieValue String token, @RequestParam String title){
-        String id = util.getUserId(token, secretKey);
+        Long id = util.getUserId(token, secretKey);
         editorService.create(title, id);
         return "Success";
     }

@@ -14,8 +14,8 @@ import java.util.UUID;
 public class EditorService {
     private final EditorRepository editorRepository;
     @Transactional
-    public void create(String title, String id){
-        Editor editor = new Editor(title, UUID.randomUUID().toString(), id);
-        editorRepository.save(editor);
+    public void create(String title, Long id){
+//        Editor editor = new Editor(title, UUID.randomUUID().toString(), id);
+//        editorRepository.save(editor);
     }
 }
