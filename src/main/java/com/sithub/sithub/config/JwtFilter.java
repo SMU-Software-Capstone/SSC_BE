@@ -50,7 +50,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Token 꺼내기 split은 저 문자 기준으로 분리하고, 그 중 첫번째 인덱스 값을 가져가기
         String token = authorization.split(" ")[1];
-        long userId;
+        String userId;
 
         try {
             Util.isExpired(token, secretKey);
