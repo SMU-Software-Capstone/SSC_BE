@@ -16,6 +16,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public User(String userId, String password) {
+        this.userId = userId;
+        this.password = password;
+    }
+
     private String userId;
     private String password;
 }
