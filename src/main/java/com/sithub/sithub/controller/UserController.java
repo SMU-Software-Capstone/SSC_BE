@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/login")
-public class LoginController {
+public class UserController {
     private final UserService userService;
     @PostMapping("/register")
     public String register(@RequestBody UserDTO userDTO) {
-        User user = new User(userDTO.getUserId(), userDTO.getPassword());
 
-        userService.join(user);
 
-        String token = userService.createToken(user.getUserId());
+        Long userId = userService.join(userDTO);
+
+        String token = userService.createToken(userId);
         Cookie cookie = new Cookie("token", token);
 
         cookie.setPath("/");
