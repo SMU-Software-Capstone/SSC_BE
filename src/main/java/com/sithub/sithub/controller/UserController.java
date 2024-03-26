@@ -21,8 +21,9 @@ public class UserController {
 
 
         Long userId = userService.join(userDTO);
+        String stringId = userDTO.getUserId();
 
-        String token = userService.createToken(userId);
+        String token = userService.createToken(userId, stringId);
         Cookie cookie = new Cookie("token", token);
 
         cookie.setPath("/");

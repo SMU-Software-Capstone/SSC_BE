@@ -1,17 +1,15 @@
 package com.sithub.sithub.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
-public class Editor {
+public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +19,16 @@ public class Editor {
 
     private String randomId;
 
-    private String userId;
+    @OneToMany(mappedBy = "room")
+    private List<User> userList;
 
-    public Editor(String title, String randomId, String userId) {
+    public void addUser(User user){
+        this.userList.add(user);
+    }
+
+
+    public Room(String title, String randomId) {
         this.title = title;
         this.randomId = randomId;
-        this.userId = userId;
     }
 }

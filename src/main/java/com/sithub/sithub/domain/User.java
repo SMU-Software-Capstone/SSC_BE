@@ -14,12 +14,34 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nickname;
+
     private String userId;
 
     private String password;
 
-    public User(String userId, String password) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Room room;
+
+    public void setRoom(Room room) {
+        this.room = room;
+
+        if(!room.getUserList().contains(this)) {
+            room.getUserList().add(this);
+        }
+    }
+
+    public void removeUser(Room room) {
+        this.room = room;
+
+        if(room.getUserList().contains(this)) {
+            room.getUserList().remove(this);
+        }
+    }
+
+    public User(String userId, String nickname, String password) {
         this.userId = userId;
+        this.nickname = nickname;
         this.password = password;
     }
 }
