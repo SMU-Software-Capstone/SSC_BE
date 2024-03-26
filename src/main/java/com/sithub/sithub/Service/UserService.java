@@ -25,12 +25,12 @@ public class UserService {
 
     @Transactional
     public Long join(UserDTO userDTO){
-        User user = new User(userDTO.getUserId(), userDTO.getPassword());
+        User user = new User(userDTO.getUserId(), userDTO.getNickname(), userDTO.getPassword());
         userRepository.save(user);
         return user.getId();
     }
-    public String createToken(Long id){
-        return util.createJwt(id, secretKey);
+    public String createToken(Long id, String stringId){
+        return util.createJwt(id, stringId, secretKey);
     }
 
     public String login(UserDTO userDTO){
@@ -44,6 +44,6 @@ public class UserService {
         // 사용자가 입력한 비밀번호 (rawPassword)와 암호화된 비밀번호 (hashedPassword)를 비교
         if(!matches(userDTO.getPassword(), user.getPassword())) return "Password Not Equal";
 
-        return Util.createJwt(user.getId(), secretKey);
+        return Util.createJwt(user.getId(), user.getUserId(), secretKey);
     }
 }
