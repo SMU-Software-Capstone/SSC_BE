@@ -16,7 +16,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
     @Transactional
-    public void create(String title, Long id){
+    public void create(Long id){
 //        Editor editor = new Editor(title, UUID.randomUUID().toString(), id);
 //        editorRepository.save(editor);
     }

@@ -37,8 +37,8 @@ public class UserController {
         return "Success";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody UserDTO userDTO){
+    @GetMapping("/login")
+    public String login(@RequestParam UserDTO userDTO){
         String token = userService.login(userDTO);
 
         if(token == "Email Not Found" || token == "Password Not Equal"){
