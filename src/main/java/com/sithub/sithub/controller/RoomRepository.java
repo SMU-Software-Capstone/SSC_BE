@@ -24,9 +24,9 @@ public class RoomRepository {
     }
 
     @GetMapping("/create")
-    public String createRoom(@CookieValue String token, @RequestParam String title){
+    public String createRoom(@CookieValue String token){
         Long id = util.getUserId(token, secretKey);
-        editorService.create(title, id);
+        editorService.create(id);
         return "Success";
     }
 
