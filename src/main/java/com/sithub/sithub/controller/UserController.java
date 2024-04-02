@@ -1,13 +1,9 @@
 package com.sithub.sithub.controller;
 
-import com.sithub.sithub.Service.RoomService;
 import com.sithub.sithub.Service.UserService;
 import com.sithub.sithub.requestDTO.UserDTO;
-import com.sithub.sithub.requestDTO.loginDTO;
-import com.sithub.sithub.responseDTO.RoomResponseDTO;
+import com.sithub.sithub.requestDTO.LoginDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -44,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam loginDTO loginDTO){
+    public String login(@RequestBody LoginDTO loginDTO){
         String token = userService.login(loginDTO);
 
         if(token == "Email Not Found" || token == "Password Not Equal"){
