@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -24,7 +26,7 @@ public class RoomService {
     @Transactional
     public void getRoomAndSaveUser(String id, String roomId){
         Room room = roomRepository.findByRandomId(roomId).get();
-        User user = userRepository.findByUserId(id).get();
+        User user = userRepository.findByUserStringId(id).get();
         user.setRoom(room);
     }
 
@@ -36,7 +38,7 @@ public class RoomService {
 
     public void removeUser(String id, String roomid){
         Room room = roomRepository.findByRandomId(roomid).get();
-        User user = userRepository.findByUserId(id).get();
+        User user = userRepository.findByUserStringId(id).get();
         user.removeUser(room);
     }
 }
