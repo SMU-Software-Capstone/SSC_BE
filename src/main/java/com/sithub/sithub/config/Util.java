@@ -3,6 +3,7 @@ package com.sithub.sithub.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class Util {
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireMs))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
                 .compact();
     }
 
