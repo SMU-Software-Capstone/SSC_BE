@@ -2,7 +2,6 @@ package com.sithub.sithub.controller;
 
 import com.sithub.sithub.Service.RoomService;
 import com.sithub.sithub.config.Util;
-import com.sithub.sithub.responseDTO.RoomResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +11,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/editor")
-public class RoomRepository {
+public class RoomController {
     private final RoomService editorService;
     private final Util util;
 
@@ -30,11 +29,9 @@ public class RoomRepository {
         return "Success";
     }
 
-    @GetMapping("/editor/{roomId}")
-    public RoomResponseDTO enterEditor(@CookieValue String token, @PathVariable String roomId){
+    @PostMapping("/editor/{roomId}")
+    public void enterEditor(@CookieValue String token, @PathVariable String roomId){
         String id = util.getUserStringId(token, secretKey);
         editorService.getRoomAndSaveUser(id, roomId);
-        RoomResponseDTO roomResponseDTO = editorService.getRoomResponseDTO(roomId);
-        return roomResponseDTO;
     }
 }

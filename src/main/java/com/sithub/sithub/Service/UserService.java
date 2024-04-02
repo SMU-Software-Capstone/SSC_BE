@@ -4,6 +4,7 @@ import com.sithub.sithub.Repository.UserRepository;
 import com.sithub.sithub.config.Util;
 import com.sithub.sithub.domain.User;
 import com.sithub.sithub.requestDTO.UserDTO;
+import com.sithub.sithub.requestDTO.loginDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,8 @@ public class UserService {
         return util.createJwt(id, stringId, secretKey);
     }
 
-    public String login(UserDTO userDTO){
-        Optional<User> member = userRepository.findByUserId(userDTO.getUserId());
+    public String login(loginDTO loginDTO){
+        Optional<User> member = userRepository.findByUserStringId(loginDTO.getUserId());
         // 1. Id가 틀린 경우
         if(!member.isPresent()) return "Email Not Found";
 
@@ -42,8 +43,8 @@ public class UserService {
         User user = member.get();
 
         // 사용자가 입력한 비밀번호 (rawPassword)와 암호화된 비밀번호 (hashedPassword)를 비교
-        if(!matches(userDTO.getPassword(), user.getPassword())) return "Password Not Equal";
+        if(!matches(loginDTO.getPassword(), user.getPassword())) return "Password Not Equal";
 
-        return Util.createJwt(user.getId(), user.getUserId(), secretKey);
+        return Util.createJwt(user.getId(), user.getUserStringId(), secretKey);
     }
 }

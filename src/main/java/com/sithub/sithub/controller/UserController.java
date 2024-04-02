@@ -1,21 +1,27 @@
 package com.sithub.sithub.controller;
 
+import com.sithub.sithub.Service.RoomService;
 import com.sithub.sithub.Service.UserService;
-import com.sithub.sithub.domain.User;
 import com.sithub.sithub.requestDTO.UserDTO;
+import com.sithub.sithub.requestDTO.loginDTO;
+import com.sithub.sithub.responseDTO.RoomResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/login")
 public class UserController {
     private final UserService userService;
+
+
     @PostMapping("/register")
     public String register(@RequestBody UserDTO userDTO) {
 
@@ -38,11 +44,11 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam UserDTO userDTO){
-        String token = userService.login(userDTO);
+    public String login(@RequestParam loginDTO loginDTO){
+        String token = userService.login(loginDTO);
 
         if(token == "Email Not Found" || token == "Password Not Equal"){
-            System.out.println("Not user" + token + " " + userDTO.getPassword());
+            System.out.println("Not user" + token + " " + loginDTO.getPassword());
             return "fail";
         }
 
@@ -56,7 +62,7 @@ public class UserController {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         response.addCookie(cookie);
 
-        if(userDTO.getUserId().equals("admin@sangmyung.kr")) {
+        if(loginDTO.getUserId().equals("admin@sangmyung.kr")) {
             return "admin";
         }
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@Entity
+@Entity(name = "editor_room")
 @NoArgsConstructor
 public class Room {
 
