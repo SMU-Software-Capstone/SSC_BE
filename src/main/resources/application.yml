@@ -8,6 +8,13 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: myCluster
+
+
 
   kafka: #Kafka
     bootstrap-servers: localhost:9092
