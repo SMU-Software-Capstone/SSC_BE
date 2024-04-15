@@ -10,5 +10,5 @@ import java.util.List;
 public class SnapshotDTO{
     private String roomId;
     private String fileName;
-    private List<List<String>> code;
+    private List<String> code;
 }
