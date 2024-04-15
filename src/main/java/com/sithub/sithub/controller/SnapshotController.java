@@ -16,7 +16,7 @@ public class SnapshotController {
 
     @PostMapping("/snapshot")
     public void saveSnapshot(@RequestBody SnapshotRequestDTO request) {
-        snapshotService.saveSnapshot(request.getRoomId(), request.getRoomId(), request.getCode());
+        snapshotService.saveSnapshot(request.getRoomId(), request.getFileName(), request.getCode());
     }
 
 
