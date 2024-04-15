@@ -14,7 +14,7 @@ public class SnapshotService {
     @Autowired
     private SnapshotRepository snapshotRepository;
 
-    public void saveSnapshot(String roomId, String fileName, String code) {
+    public void saveSnapshot(String roomId, String fileName, List<List<String>> code) {
         Snapshot snapshot = new Snapshot();
         snapshot.setRoomId(roomId);
         snapshot.setFileName(fileName);
@@ -37,10 +37,10 @@ public class SnapshotService {
     }
 
 
-    public void updateCodes(String roomId, String code) {
+    public void updateCodes(String roomId, String code, int lineNumber) {
         Snapshot snapshot = snapshotRepository.findByRoomId(roomId);
         if(snapshot != null) {
-            snapshot.updateCode(code);
+            snapshot.updateCode(code, lineNumber);
             snapshotRepository.save(snapshot);
         }
     }

@@ -2,6 +2,7 @@ package com.sithub.sithub.controller;
 
 import com.sithub.sithub.Service.SnapshotService;
 import com.sithub.sithub.domain.Snapshot;
+import com.sithub.sithub.requestDTO.CodeDTO;
 import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class SnapshotController {
 
     //해당 방에서 코드를 수정했을때 저장
     @PatchMapping("/code/{roomId}")
-    public void updateCode(@PathVariable String roomId, @RequestBody String code) {
-        snapshotService.updateCodes(roomId, code);
+    public void updateCode(@PathVariable String roomId, @RequestBody CodeDTO code) {
+        snapshotService.updateCodes(roomId, code.getCode(), code.getLineNumber());
     }
 }
