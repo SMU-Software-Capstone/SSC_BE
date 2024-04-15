@@ -11,5 +11,4 @@ public class SnapshotRequestDTO {
     private String roomId;
     private String fileName;
     private List<String> code;
-
 }

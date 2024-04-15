@@ -20,6 +20,7 @@ public class Snapshot {
     private String fileName;
     private List<String> code;
 
+
     public void updateCode(String newCode, int lineNumber) {
         if (lineNumber < 0 || lineNumber >= code.size()) {
             throw new IndexOutOfBoundsException("Invalid line number");
