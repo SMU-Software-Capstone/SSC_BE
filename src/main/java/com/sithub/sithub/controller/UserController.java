@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -39,7 +39,7 @@ public class UserController {
         return "Success";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestBody LoginDTO loginDTO){
         String token = userService.login(loginDTO);
 
