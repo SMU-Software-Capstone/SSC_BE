@@ -14,7 +14,7 @@ public class SnapshotService {
     @Autowired
     private SnapshotRepository snapshotRepository;
 
-    public void saveSnapshot(String roomId, String fileName, List<List<String>> code) {
+    public void saveSnapshot(String roomId, String fileName, List<String> code) {
         Snapshot snapshot = new Snapshot();
         snapshot.setRoomId(roomId);
         snapshot.setFileName(fileName);

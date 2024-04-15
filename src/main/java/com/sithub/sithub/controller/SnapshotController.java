@@ -23,13 +23,14 @@ public class SnapshotController {
 
     //방 들어갔을때 받아가는 데이터
     @GetMapping("/snapshots/{roomId}")
-    public SnapshotDTO getSnapshotsByRoomId(@PathVariable String roomId) {
+    public SnapshotDTO getSnapshotsByRoomId(@PathVariable("roomId") String roomId) {
         return snapshotService.getSnapshotsByRoomId(roomId);
     }
 
     //해당 방에서 코드를 수정했을때 저장
     @PatchMapping("/code/{roomId}")
-    public void updateCode(@PathVariable String roomId, @RequestBody CodeDTO code) {
+
+    public void updateCode(@PathVariable("roomId") String roomId, @RequestBody CodeDTO code) {
         snapshotService.updateCodes(roomId, code.getCode(), code.getLineNumber());
     }
 }

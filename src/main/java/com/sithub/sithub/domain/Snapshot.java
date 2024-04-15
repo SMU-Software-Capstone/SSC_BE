@@ -18,16 +18,14 @@ public class Snapshot {
     private String id;
     private String roomId;
     private String fileName;
-    private List<List<String>> code; //line list 자료구조로 바꿔야함.
+    private List<String> code;
+
 
     public void updateCode(String newCode, int lineNumber) {
         if (lineNumber < 0 || lineNumber >= code.size()) {
             throw new IndexOutOfBoundsException("Invalid line number");
         }
-        List<String> line = code.get(lineNumber);
-        line.clear();
-        line.add(newCode);
-        code.set(lineNumber, line);
+        code.set(lineNumber, newCode);
     }
 
 
