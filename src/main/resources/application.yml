@@ -10,9 +10,10 @@ spring:
 
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      uri: mongodb+srv://gamgam0330:aIjRXSKd0pB8iI8U@mycluster.y5s89rb.mongodb.net/?retryWrites=true&w=majority&appName=myCluster
       database: myCluster
+      #database: myCluster
+      #password: aIjRXSKd0pB8iI8U
 
 
 
