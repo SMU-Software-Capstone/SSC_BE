@@ -39,6 +39,10 @@ public class User {
         }
     }
 
+    public void addTeam(Team team) {
+        this.teams.add(team);
+    }
+
     public void removeUser(Room room) {
         this.room = room;
 
