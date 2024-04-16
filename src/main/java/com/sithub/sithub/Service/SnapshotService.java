@@ -1,12 +1,16 @@
 package com.sithub.sithub.Service;
 
 import com.sithub.sithub.Repository.SnapshotRepository;
+import com.sithub.sithub.Repository.TeamRepository;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +19,8 @@ import java.util.stream.Collectors;
 public class SnapshotService {
 
     private final SnapshotRepository snapshotRepository;
+
+    private final TeamRepository teamRepository;
 
     public void saveSnapshot(String roomId, String fileName, List<String> code) {
         Snapshot snapshot = new Snapshot(roomId, fileName, code);
@@ -41,6 +47,18 @@ public class SnapshotService {
         if(snapshot != null) {
             snapshot.updateCode(code, lineNumber);
             snapshotRepository.save(snapshot);
+        }
+    }
+
+    public void uploadFile(List<MultipartFile> files, Long teamId) throws IOException {
+        for (MultipartFile file : files) {
+            if(file.getName().contains(".DS_Store")) {
+                System.out.println("DS: " + file.getName());
+                continue;
+            }
+
+            String code = new String(file.getBytes(), StandardCharsets.UTF_8);
+            System.out.println("code = " + code);
         }
     }
 }
