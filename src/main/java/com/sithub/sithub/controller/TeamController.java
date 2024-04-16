@@ -25,7 +25,7 @@ public class TeamController {
         return "success";
     }
 
-    @PostMapping("{teamName}/add/{nickname}")
+    @PostMapping("/{teamName}/add/{nickname}")
     public String add(@PathVariable("teamName") String teamName,
                       @PathVariable("nickname") String nickname) {
         return teamService.addUser(teamName, nickname);
