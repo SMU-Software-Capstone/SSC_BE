@@ -17,10 +17,7 @@ public class SnapshotService {
     private final SnapshotRepository snapshotRepository;
 
     public void saveSnapshot(String roomId, String fileName, List<String> code) {
-        Snapshot snapshot = new Snapshot();
-        snapshot.setRoomId(roomId);
-        snapshot.setFileName(fileName);
-        snapshot.setCode(code);
+        Snapshot snapshot = new Snapshot(roomId, fileName, code);
         snapshotRepository.save(snapshot);
     }
 

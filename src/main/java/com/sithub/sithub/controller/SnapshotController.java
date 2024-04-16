@@ -1,23 +1,29 @@
 package com.sithub.sithub.controller;
 
+import com.sithub.sithub.Service.MariaService;
 import com.sithub.sithub.Service.SnapshotService;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.requestDTO.CodeDTO;
+import com.sithub.sithub.requestDTO.MariaDTO;
 import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class SnapshotController {
-    @Autowired
-    private SnapshotService snapshotService;
+
+    private final SnapshotService snapshotService;
+    private final MariaService mariaService;
 
     @PostMapping("/snapshot")
-    public void saveSnapshot(@RequestBody SnapshotRequestDTO request) {
+    public void saveSnapshot(@RequestBody SnapshotRequestDTO request/*MariaDTO mariaDTO*/) {
         snapshotService.saveSnapshot(request.getRoomId(), request.getFileName(), request.getCode());
+        //mariaService.saveSnapshot(mariaDTO.getRoomId(), mariaDTO.getCode());
     }
 
 
@@ -29,8 +35,8 @@ public class SnapshotController {
 
     //해당 방에서 코드를 수정했을때 저장
     @PatchMapping("/code/{roomId}")
-
     public void updateCode(@PathVariable("roomId") String roomId, @RequestBody CodeDTO code) {
         snapshotService.updateCodes(roomId, code.getCode(), code.getLineNumber());
+        //mariaService.updateCodes(roomId, code.getCode());
     }
 }

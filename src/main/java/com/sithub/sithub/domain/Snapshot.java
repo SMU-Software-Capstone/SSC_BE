@@ -16,6 +16,13 @@ import java.util.List;
 public class Snapshot {
     @Id
     private String id;
+
+    public Snapshot(String roomId, String fileName, List<String> code) {
+        this.roomId = roomId;
+        this.fileName = fileName;
+        this.code = code;
+    }
+
     private String roomId;
     private String fileName;
     private List<String> code;
