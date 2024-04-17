@@ -22,11 +22,11 @@ public class SnapshotController {
     private final SnapshotService snapshotService;
     private final MariaService mariaService;
 
-    @PostMapping("/snapshot")
-    public void saveSnapshot(@RequestBody SnapshotRequestDTO request/*MariaDTO mariaDTO*/) {
-        snapshotService.saveSnapshot(request.getRoomId(), request.getFileName(), request.getCode());
-        //mariaService.saveSnapshot(mariaDTO.getRoomId(), mariaDTO.getCode());
-    }
+//    @PostMapping("/snapshot")
+//    public void saveSnapshot(@RequestBody SnapshotRequestDTO request/*MariaDTO mariaDTO*/) {
+//        snapshotService.saveSnapshot(request.getRoomId(), request.getFileName(), request.getCode());
+//        //mariaService.saveSnapshot(mariaDTO.getRoomId(), mariaDTO.getCode());
+//    }
 
 
     //방 들어갔을때 받아가는 데이터
@@ -43,10 +43,16 @@ public class SnapshotController {
     }
 
     //새 프로젝트 파일 받기
-    @PostMapping("/{teamId}/snapshots/upload")
-    public void upload(
+    @PostMapping("/{teamName}/snapshots/save")
+    public void save(
             @RequestPart(value = "files") List<MultipartFile> files,
-            @PathVariable("teamId") Long teamId) throws IOException {
-        snapshotService.uploadFile(files, teamId);
+            @PathVariable("teamName") String teamName) throws IOException {
+        snapshotService.saveFile(files, teamName);
+    }
+
+    //작업중인 프로젝트 S3에 업로드
+    @PostMapping("/{teamName}/s3/upload")
+    public void upload(@PathVariable("teamName") String teamName) throws IOException {
+        snapshotService.uploadToS3(teamName);
     }
 }

@@ -1,11 +1,15 @@
 package com.sithub.sithub.Service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.sithub.sithub.Repository.SnapshotRepository;
 import com.sithub.sithub.Repository.TeamRepository;
+import com.sithub.sithub.config.StringToMultipartFileConverter;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,8 +29,13 @@ public class SnapshotService {
 
     private final TeamRepository teamRepository;
 
-    public void saveSnapshot(String roomId, String fileName, List<String> code) {
-        Snapshot snapshot = new Snapshot(roomId, fileName, code);
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    public void saveSnapshot(String roomId, String fileName, List<String> code, String contentType) {
+        Snapshot snapshot = new Snapshot(roomId, fileName, code, contentType);
         snapshotRepository.save(snapshot);
     }
 
@@ -53,9 +62,9 @@ public class SnapshotService {
         }
     }
 
-    public void uploadFile(List<MultipartFile> files, Long teamId) throws IOException {
+    public void saveFile(List<MultipartFile> files, String teamName) throws IOException {
         for (MultipartFile file : files) {
-            if(file.getName().contains(".DS_Store")) {
+            if(file.getOriginalFilename().contains(".DS_Store")) {
                 System.out.println("DS: " + file.getName());
                 continue;
             }
@@ -68,11 +77,32 @@ public class SnapshotService {
 
             while((line = bufferedReader.readLine()) != null) {
                 lineByCode.add(line);
-                System.out.println("line = " + line);
             }
 
-            saveSnapshot("1234", file.getName(), lineByCode);
+            saveSnapshot("1234", file.getOriginalFilename(), lineByCode, file.getContentType());
             bufferedReader.close();
+        }
+    }
+
+    public void uploadToS3(String teamName) throws IOException {
+        List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+
+        for (Snapshot snapshot : snapshots) {
+            String code = "";
+
+            for(String line : snapshot.getCode()) {
+                code = code.concat(line).concat("\n");
+            }
+
+            MultipartFile file = StringToMultipartFileConverter.convert(code, snapshot.getFileName(), snapshot.getContentType());
+
+            ObjectMetadata metadata = new ObjectMetadata();
+
+            metadata.setContentLength(file.getSize());
+            metadata.setContentType(file.getContentType());
+
+            amazonS3.putObject(bucket, snapshot.getFileName(), file.getInputStream(), metadata);
+            System.out.println("upload: " + snapshot.getFileName());
         }
     }
 }
