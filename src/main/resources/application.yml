@@ -10,8 +10,8 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://gamgam0330:aIjRXSKd0pB8iI8U@mycluster.y5s89rb.mongodb.net/?retryWrites=true&w=majority&appName=myCluster
-      database: myCluster
+      uri: mongodb://localhost:27017/ssc
+      #database: myCluster
       #database: myCluster
       #password: aIjRXSKd0pB8iI8U
 

@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +61,18 @@ public class SnapshotService {
             }
 
             String code = new String(file.getBytes(), StandardCharsets.UTF_8);
-            System.out.println("code = " + code);
+            BufferedReader bufferedReader = new BufferedReader(new StringReader(code));
+
+            String line;
+            List<String> lineByCode = new ArrayList<>();
+
+            while((line = bufferedReader.readLine()) != null) {
+                lineByCode.add(line);
+                System.out.println("line = " + line);
+            }
+
+            saveSnapshot("1234", file.getName(), lineByCode);
+            bufferedReader.close();
         }
     }
 }
