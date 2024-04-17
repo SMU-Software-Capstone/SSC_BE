@@ -17,14 +17,16 @@ public class Snapshot {
     @Id
     private String id;
 
-    public Snapshot(String roomId, String fileName, List<String> code) {
+    public Snapshot(String roomId, String fileName, List<String> code, String contentType) {
         this.roomId = roomId;
         this.fileName = fileName;
         this.code = code;
+        this.contentType = contentType;
     }
 
     private String roomId;
     private String fileName;
+    private String contentType;
     private List<String> code;
 
 

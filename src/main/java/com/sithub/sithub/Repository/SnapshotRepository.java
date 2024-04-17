@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SnapshotRepository extends MongoRepository<Snapshot, String> {
     Snapshot findByRoomId(String roomId);
+
+    List<Snapshot> findSnapshotsByRoomId(String roomId);
 }
