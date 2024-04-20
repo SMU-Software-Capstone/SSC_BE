@@ -5,6 +5,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.*;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
@@ -16,14 +20,27 @@ public class Manage extends BaseTime{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long name;
-
     private String comment;
 
     @ManyToOne(fetch = LAZY)
     private Team team;
 
+    @OneToMany(mappedBy = "manage", cascade = {PERSIST})
+    private List<File> files = new ArrayList<>();
+
     public void setTeam(Team team) {
         this.team = team;
+
+        if(!team.getManages().contains(this)) {
+            team.addManage(this);
+        }
+    }
+
+    public void addFile(File file) {
+        this.files.add(file);
+    }
+
+    public Manage(String comment) {
+        this.comment = comment;
     }
 }

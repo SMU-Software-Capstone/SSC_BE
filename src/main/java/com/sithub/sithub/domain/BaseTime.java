@@ -17,7 +17,4 @@ public class BaseTime {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createDate;
-
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
 }

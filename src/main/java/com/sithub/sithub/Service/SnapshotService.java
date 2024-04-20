@@ -1,11 +1,16 @@
 package com.sithub.sithub.Service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.sithub.sithub.Repository.ManageRepository;
 import com.sithub.sithub.Repository.SnapshotRepository;
 import com.sithub.sithub.Repository.TeamRepository;
 import com.sithub.sithub.config.StringToMultipartFileConverter;
+import com.sithub.sithub.domain.File;
+import com.sithub.sithub.domain.Manage;
 import com.sithub.sithub.domain.Snapshot;
+import com.sithub.sithub.domain.Team;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +35,8 @@ public class SnapshotService {
     private final SnapshotRepository snapshotRepository;
 
     private final TeamRepository teamRepository;
+
+    private final ManageRepository manageRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -63,6 +72,14 @@ public class SnapshotService {
     }
 
     public void saveFile(List<MultipartFile> files, String teamName) throws IOException {
+        List<Snapshot> prevSnapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+
+        // 이전에 진행중이던 작업 내용은 삭제
+        for (Snapshot prevSnapshot : prevSnapshots) {
+            snapshotRepository.delete(prevSnapshot);
+        }
+
+        // 새로운 작업 내용 DB에 저장
         for (MultipartFile file : files) {
             if(file.getOriginalFilename().contains(".DS_Store")) {
                 System.out.println("DS: " + file.getName());
@@ -79,13 +96,22 @@ public class SnapshotService {
                 lineByCode.add(line);
             }
 
-            saveSnapshot("1234", file.getOriginalFilename(), lineByCode, file.getContentType());
+            saveSnapshot(teamName, file.getOriginalFilename(), lineByCode, file.getContentType());
             bufferedReader.close();
         }
     }
 
-    public void uploadToS3(String teamName) throws IOException {
+    public void uploadToS3(String teamName, String comment) throws IOException {
         List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+
+        Team team = teamRepository.findTeamByName(teamName)
+                .orElseThrow(() -> new NotFoundException("Could not found id : " + teamName));
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String current_date = LocalDateTime.now().format(dateTimeFormatter);
+
+        Manage manage = new Manage(comment);
+        manage.setTeam(team);
 
         for (Snapshot snapshot : snapshots) {
             String code = "";
@@ -94,15 +120,28 @@ public class SnapshotService {
                 code = code.concat(line).concat("\n");
             }
 
-            MultipartFile file = StringToMultipartFileConverter.convert(code, snapshot.getFileName(), snapshot.getContentType());
+//            MultipartFile file = StringToMultipartFileConverter.convert(code, snapshot.getFileName(), snapshot.getContentType());
+//
+//            ObjectMetadata metadata = new ObjectMetadata();
+//
+//            metadata.setContentLength(file.getSize());
+//            metadata.setContentType(file.getContentType());
+//
+//            amazonS3.putObject(bucket, snapshot.getFileName(), file.getInputStream(), metadata);
+            amazonS3.putObject(bucket,teamName + current_date + "/" + snapshot.getFileName(), code);
 
-            ObjectMetadata metadata = new ObjectMetadata();
+            File file = new File(teamName + current_date + "/" + snapshot.getFileName());
+            file.setManage(manage);
 
-            metadata.setContentLength(file.getSize());
-            metadata.setContentType(file.getContentType());
-
-            amazonS3.putObject(bucket, snapshot.getFileName(), file.getInputStream(), metadata);
             System.out.println("upload: " + snapshot.getFileName());
         }
+
+        manageRepository.save(manage);
+    }
+
+    public String test() {
+        String objectAsString = amazonS3.getObjectAsString(bucket, "folderTest/child/UserList.js");
+        System.out.println(objectAsString);
+        return objectAsString;
     }
 }
