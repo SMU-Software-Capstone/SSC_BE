@@ -5,6 +5,7 @@ import com.sithub.sithub.Service.SnapshotService;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.requestDTO.CodeDTO;
 import com.sithub.sithub.requestDTO.MariaDTO;
+import com.sithub.sithub.requestDTO.S3UploadDTO;
 import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +52,13 @@ public class SnapshotController {
     }
 
     //작업중인 프로젝트 S3에 업로드
-    @PostMapping("/{teamName}/s3/upload")
-    public void upload(@PathVariable("teamName") String teamName) throws IOException {
-        snapshotService.uploadToS3(teamName);
+    @PostMapping("/s3/upload")
+    public void upload(@RequestBody S3UploadDTO dto) throws IOException {
+        snapshotService.uploadToS3(dto.getTeamName(), dto.getComment());
+    }
+
+    @GetMapping("/test/file")
+    public String test() {
+        return snapshotService.test();
     }
 }

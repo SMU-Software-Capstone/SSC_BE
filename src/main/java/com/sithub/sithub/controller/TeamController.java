@@ -18,7 +18,7 @@ public class TeamController {
     private final TeamService teamService;
 
     @PostMapping("/create/{teamName}")
-    public String create(@CookieValue String token,
+    public String create(@CookieValue("token") String token,
                        @PathVariable("teamName") String teamName) {
         Long id = util.getUserId(token, secretKey);
         teamService.createTeam(id, teamName);

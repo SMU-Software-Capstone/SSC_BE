@@ -5,28 +5,31 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Team {
+public class File {
     @Id
-    @Column(name = "team_id")
+    @Column(name = "file_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "team")
-    private List<Manage> manages = new ArrayList<>();
+    @ManyToOne(fetch = LAZY)
+    private Manage manage;
 
-    public void addManage(Manage manage) {
-        this.manages.add(manage);
+    public void setManage(Manage manage) {
+        this.manage = manage;
+
+        if(!manage.getFiles().contains(this)) {
+            manage.addFile(this);
+        }
     }
 
-    public Team(String name) {
+    public File(String name) {
         this.name = name;
     }
 }
