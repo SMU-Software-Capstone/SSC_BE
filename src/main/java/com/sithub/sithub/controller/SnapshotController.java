@@ -8,6 +8,7 @@ import com.sithub.sithub.requestDTO.MariaDTO;
 import com.sithub.sithub.requestDTO.S3UploadDTO;
 import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
+import com.sithub.sithub.responseDTO.SnapshotListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,11 @@ public class SnapshotController {
     @PostMapping("/s3/upload")
     public void upload(@RequestBody S3UploadDTO dto) throws IOException {
         snapshotService.uploadToS3(dto.getTeamName(), dto.getComment());
+    }
+
+    @GetMapping("/snapshot/list/{teamName}")
+    public List<SnapshotListDTO> snapshotList(@PathVariable("teamName") String teamName) {
+        return snapshotService.getSnapshotList(teamName);
     }
 
     @GetMapping("/test/file")
