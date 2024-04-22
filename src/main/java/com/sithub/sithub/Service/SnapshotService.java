@@ -147,6 +147,18 @@ public class SnapshotService {
                 snapshot -> new SnapshotListDTO(snapshot.getId(), snapshot.getFileName())).toList();
     }
 
+    public String getSnapshot(String snapshotId) {
+        Snapshot snapshot = snapshotRepository.findById(snapshotId)
+                .orElseThrow(() -> new NotFoundException("Could not found id : " + snapshotId));
+        String code = "";
+
+        for(String line : snapshot.getCode()) {
+            code = code.concat(line).concat("\n");
+        }
+
+        return code;
+    }
+
     public String test() {
         String objectAsString = amazonS3.getObjectAsString(bucket, "folderTest/child/UserList.js");
         System.out.println(objectAsString);

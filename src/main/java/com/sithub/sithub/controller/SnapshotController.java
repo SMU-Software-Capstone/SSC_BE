@@ -58,9 +58,16 @@ public class SnapshotController {
         snapshotService.uploadToS3(dto.getTeamName(), dto.getComment());
     }
 
+    // 작업중인 프로젝트 파일 목록
     @GetMapping("/snapshot/list/{teamName}")
     public List<SnapshotListDTO> snapshotList(@PathVariable("teamName") String teamName) {
         return snapshotService.getSnapshotList(teamName);
+    }
+
+    // 선택한 파일 코드 반환
+    @GetMapping("/snapshot/{snapshotId}")
+    public String snapshot(@PathVariable("snapshotId") String snapshotId) {
+        return snapshotService.getSnapshot(snapshotId);
     }
 
     @GetMapping("/test/file")
