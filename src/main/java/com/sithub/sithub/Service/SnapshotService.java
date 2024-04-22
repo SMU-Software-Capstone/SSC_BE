@@ -12,6 +12,7 @@ import com.sithub.sithub.domain.Manage;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.domain.Team;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
+import com.sithub.sithub.responseDTO.SnapshotListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -137,6 +138,13 @@ public class SnapshotService {
         }
 
         manageRepository.save(manage);
+    }
+
+    public List<SnapshotListDTO> getSnapshotList(String teamName) {
+        List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+
+        return snapshots.stream().map(
+                snapshot -> new SnapshotListDTO(snapshot.getId(), snapshot.getFileName())).toList();
     }
 
     public String test() {
