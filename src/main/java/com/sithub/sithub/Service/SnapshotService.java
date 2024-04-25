@@ -11,6 +11,8 @@ import com.sithub.sithub.domain.File;
 import com.sithub.sithub.domain.Manage;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.domain.Team;
+import com.sithub.sithub.requestDTO.CreateSnapshotDTO;
+
 import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import com.sithub.sithub.responseDTO.SnapshotListDTO;
@@ -168,13 +170,13 @@ public class SnapshotService {
         return objectAsString;
     }
 
-    public void createNewSnapShot(SnapshotRequestDTO snapshotRequestDTO){
-        Snapshot snapshot = new Snapshot(snapshotRequestDTO.getRoomId(), snapshotRequestDTO.getFileName());
+    public void createNewSnapShot(CreateSnapshotDTO createSnapshotDTO){
+        Snapshot snapshot = new Snapshot(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName());
         snapshotRepository.save(snapshot);
     }
 
-    public void removeSnapShot(SnapshotRequestDTO snapshotRequestDTO) {
-        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(snapshotRequestDTO.getRoomId(), snapshotRequestDTO.getFileName());
+    public void removeSnapShot(CreateSnapshotDTO createSnapshotDTO) {
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName());
         snapshotRepository.delete(snapshot);
     }
 
