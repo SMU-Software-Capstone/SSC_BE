@@ -3,10 +3,7 @@ package com.sithub.sithub.controller;
 import com.sithub.sithub.Service.MariaService;
 import com.sithub.sithub.Service.SnapshotService;
 import com.sithub.sithub.domain.Snapshot;
-import com.sithub.sithub.requestDTO.CodeDTO;
-import com.sithub.sithub.requestDTO.MariaDTO;
-import com.sithub.sithub.requestDTO.S3UploadDTO;
-import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
+import com.sithub.sithub.requestDTO.*;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import com.sithub.sithub.responseDTO.SnapshotListDTO;
 import lombok.RequiredArgsConstructor;
@@ -76,12 +73,12 @@ public class SnapshotController {
     }
 
     @PostMapping("/create")
-    public void createSnapShot(@RequestBody SnapshotRequestDTO snapshotRequestDTO){
-        snapshotService.createNewSnapShot(snapshotRequestDTO);
+    public void createSnapShot(@RequestBody CreateSnapshotDTO createSnapshotDTO){
+        snapshotService.createNewSnapShot(createSnapshotDTO);
     }
 
     @PostMapping("/remove")
-    public void removeSnapShot(@RequestBody SnapshotRequestDTO snapshotRequestDTO){
-        snapshotService.removeSnapShot(snapshotRequestDTO);
+    public void removeSnapShot(@RequestBody CreateSnapshotDTO createSnapshotDTO){
+        snapshotService.removeSnapShot(createSnapshotDTO);
     }
 }
