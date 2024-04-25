@@ -41,6 +41,10 @@ public class User {
 
     public void addTeam(Team team) {
         this.teams.add(team);
+
+        if(!team.getUsers().contains(this)) {
+            team.addUser(this);
+        }
     }
 
     public void removeUser(Room room) {

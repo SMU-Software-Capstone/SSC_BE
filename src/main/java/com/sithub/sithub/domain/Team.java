@@ -22,8 +22,15 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Manage> manages = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "teams")
+    private List<User> users = new ArrayList<>();
+
     public void addManage(Manage manage) {
         this.manages.add(manage);
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
     public Team(String name) {

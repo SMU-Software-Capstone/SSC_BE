@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +49,19 @@ public class TeamService {
 
         findUser.get().addTeam(findTeam.get());
         return "success";
+    }
+
+    public List<String> userList(String teamName) {
+        Team team = teamRepository.findTeamByName(teamName)
+                .orElseThrow(() -> new NotFoundException("Could not found id : " + teamName));
+
+        List<User> users = team.getUsers();
+        List<String> result = new ArrayList<>();
+
+        for (User user : users) {
+            result.add(user.getNickname());
+        }
+
+        return result;
     }
 }
