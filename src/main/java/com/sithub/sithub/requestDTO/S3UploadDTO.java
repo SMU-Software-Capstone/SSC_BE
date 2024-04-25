@@ -8,5 +8,7 @@ import lombok.NoArgsConstructor;
 public class S3UploadDTO {
     private String teamName;
 
+    private String projectName;
+
     private String comment;
 }

@@ -52,7 +52,7 @@ public class SnapshotController {
     //작업중인 프로젝트 S3에 업로드
     @PostMapping("/s3/upload")
     public void upload(@RequestBody S3UploadDTO dto) throws IOException {
-        snapshotService.uploadToS3(dto.getTeamName(), dto.getComment());
+        snapshotService.uploadToS3(dto.getTeamName(), dto.getProjectName(), dto.getComment());
     }
 
     // 작업중인 프로젝트 파일 목록
