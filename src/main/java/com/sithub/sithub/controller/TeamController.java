@@ -38,6 +38,13 @@ public class TeamController {
         return teamService.addUser(teamName, nickname);
     }
 
+    // 팀 목록 조회
+    @GetMapping("/list")
+    public List<String> list(@CookieValue("token") String token) {
+        Long id = util.getUserId(token, secretKey);
+        return teamService.teamList(id);
+    }
+
     // 팀 소속 사용자 조회
     @GetMapping("/{teamName}/users")
     public List<String> users(@PathVariable("teamName") String teamName) {

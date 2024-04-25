@@ -25,7 +25,10 @@ public class ManageService {
         Project project = projectRepository.findByTeamNameAndName(teamName, projectName)
                 .orElseThrow(() -> new NotFoundException("Could not found"));
 
-        List<ManageListDTO> dtos = project.getManages().stream().map(manage -> new ManageListDTO(manage.getId(), manage.getCreateDate())).toList();
+        List<ManageListDTO> dtos = project.getManages().stream().map(
+                manage -> new ManageListDTO(
+                        manage.getId(), manage.getComment(), manage.getCreateDate())
+        ).toList();
 
         for (ManageListDTO dto : dtos) {
             System.out.println("dto = " + dto);
