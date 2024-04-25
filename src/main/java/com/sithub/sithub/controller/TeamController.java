@@ -1,5 +1,6 @@
 package com.sithub.sithub.controller;
 
+import com.sithub.sithub.Service.ProjectService;
 import com.sithub.sithub.Service.TeamService;
 import com.sithub.sithub.config.Util;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ public class TeamController {
     private String secretKey;
 
     private final TeamService teamService;
+
+    private final ProjectService projectService;
 
     // 팀 생성
     @PostMapping("/create/{teamName}")
@@ -39,5 +42,18 @@ public class TeamController {
     @GetMapping("/{teamName}/users")
     public List<String> users(@PathVariable("teamName") String teamName) {
         return teamService.userList(teamName);
+    }
+
+    // 프로젝트 생성
+    @PostMapping("/{teamName}/create/{projectName}")
+    public void createProject(@PathVariable("projectName") String projectName,
+                       @PathVariable("teamName") String teamName) {
+        projectService.createProject(projectName, teamName);
+    }
+
+    //프로젝트 조회
+    @GetMapping("/{teamName}/projects")
+    public List<String> projects(@PathVariable("teamName") String teamName) {
+        return projectService.projectList(teamName);
     }
 }

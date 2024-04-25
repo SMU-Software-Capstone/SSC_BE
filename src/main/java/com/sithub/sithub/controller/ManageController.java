@@ -16,8 +16,9 @@ import java.util.List;
 public class ManageController {
     private final ManageService manageService;
 
-    @GetMapping("/list/{teamName}")
-    public List<ManageListDTO> list(@PathVariable("teamName") String teamName) {
-        return manageService.getManageList(teamName);
+    @GetMapping("/list/{teamName}/{projectName}")
+    public List<ManageListDTO> list(@PathVariable("teamName") String teamName,
+                                    @PathVariable("projectName") String projectName) {
+        return manageService.getManageList(teamName, projectName);
     }
 }

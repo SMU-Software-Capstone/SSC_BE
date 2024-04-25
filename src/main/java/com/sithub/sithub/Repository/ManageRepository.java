@@ -10,8 +10,4 @@ import java.util.List;
 
 public interface ManageRepository extends JpaRepository<Manage, Long> {
 
-    @Query("select m from Manage m " +
-            "where m.team.id = :teamId " +
-            "order by m.createDate ")
-    List<Manage> findManagesByTeamId(@Param("teamId") Long teamId);
 }

@@ -39,4 +39,8 @@ public class Project {
             team.addProject(this);
         }
     }
+
+    public Project(String name) {
+        this.name = name;
+    }
 }
