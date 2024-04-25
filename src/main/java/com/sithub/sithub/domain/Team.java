@@ -19,7 +19,7 @@ public class Team {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "team")
     private List<Project> projects = new ArrayList<>();
 
     @ManyToMany(mappedBy = "teams")
