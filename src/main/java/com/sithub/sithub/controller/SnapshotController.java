@@ -74,4 +74,14 @@ public class SnapshotController {
     public String test() {
         return snapshotService.test();
     }
+
+    @PostMapping("/create")
+    public void createSnapShot(@RequestBody SnapshotRequestDTO snapshotRequestDTO){
+        snapshotService.createNewSnapShot(snapshotRequestDTO);
+    }
+
+    @PostMapping("/remove")
+    public void removeSnapShot(@RequestBody SnapshotRequestDTO snapshotRequestDTO){
+        snapshotService.removeSnapShot(snapshotRequestDTO);
+    }
 }

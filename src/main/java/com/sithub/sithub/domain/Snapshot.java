@@ -24,8 +24,16 @@ public class Snapshot {
         this.contentType = contentType;
     }
 
+    public Snapshot(String roomId, String fileName) {
+        this.roomId = roomId;
+        this.fileName = fileName;
+    }
+
     private String roomId;
     private String fileName;
+
+
+
     private String contentType;
     private List<String> code;
 

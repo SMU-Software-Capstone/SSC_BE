@@ -11,12 +11,15 @@ import com.sithub.sithub.domain.File;
 import com.sithub.sithub.domain.Manage;
 import com.sithub.sithub.domain.Snapshot;
 import com.sithub.sithub.domain.Team;
+import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
 import com.sithub.sithub.responseDTO.SnapshotDTO;
 import com.sithub.sithub.responseDTO.SnapshotListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -164,4 +167,15 @@ public class SnapshotService {
         System.out.println(objectAsString);
         return objectAsString;
     }
+
+    public void createNewSnapShot(SnapshotRequestDTO snapshotRequestDTO){
+        Snapshot snapshot = new Snapshot(snapshotRequestDTO.getRoomId(), snapshotRequestDTO.getFileName());
+        snapshotRepository.save(snapshot);
+    }
+
+    public void removeSnapShot(SnapshotRequestDTO snapshotRequestDTO) {
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(snapshotRequestDTO.getRoomId(), snapshotRequestDTO.getFileName());
+        snapshotRepository.delete(snapshot);
+    }
+
 }
