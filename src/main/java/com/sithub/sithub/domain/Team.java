@@ -19,18 +19,19 @@ public class Team {
 
     private String name;
 
-    @OneToMany(mappedBy = "team")
-    private List<Manage> manages = new ArrayList<>();
+    @OneToMany
+    private List<Project> projects = new ArrayList<>();
 
     @ManyToMany(mappedBy = "teams")
     private List<User> users = new ArrayList<>();
 
-    public void addManage(Manage manage) {
-        this.manages.add(manage);
-    }
 
     public void addUser(User user) {
         this.users.add(user);
+    }
+
+    public void addProject(Project project) {
+        this.projects.add(project);
     }
 
     public Team(String name) {

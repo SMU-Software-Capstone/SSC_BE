@@ -23,16 +23,16 @@ public class Manage extends BaseTime{
     private String comment;
 
     @ManyToOne(fetch = LAZY)
-    private Team team;
+    private Project project;
 
     @OneToMany(mappedBy = "manage", cascade = {PERSIST})
     private List<File> files = new ArrayList<>();
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setProject(Project project) {
+        this.project = project;
 
-        if(!team.getManages().contains(this)) {
-            team.addManage(this);
+        if(!project.getManages().contains(this)) {
+            project.addManage(this);
         }
     }
 

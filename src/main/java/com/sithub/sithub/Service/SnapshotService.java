@@ -4,13 +4,11 @@ import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.sithub.sithub.Repository.ManageRepository;
+import com.sithub.sithub.Repository.ProjectRepository;
 import com.sithub.sithub.Repository.SnapshotRepository;
 import com.sithub.sithub.Repository.TeamRepository;
 import com.sithub.sithub.config.StringToMultipartFileConverter;
-import com.sithub.sithub.domain.File;
-import com.sithub.sithub.domain.Manage;
-import com.sithub.sithub.domain.Snapshot;
-import com.sithub.sithub.domain.Team;
+import com.sithub.sithub.domain.*;
 import com.sithub.sithub.requestDTO.CreateSnapshotDTO;
 
 import com.sithub.sithub.requestDTO.SnapshotRequestDTO;
@@ -43,6 +41,8 @@ public class SnapshotService {
     private final TeamRepository teamRepository;
 
     private final ManageRepository manageRepository;
+
+    private final ProjectRepository projectRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -107,17 +107,16 @@ public class SnapshotService {
         }
     }
 
-    public void uploadToS3(String teamName, String comment) throws IOException {
+    public void uploadToS3(String teamName, String projectName, String comment) throws IOException {
         List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
 
-        Team team = teamRepository.findTeamByName(teamName)
-                .orElseThrow(() -> new NotFoundException("Could not found id : " + teamName));
+
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String current_date = LocalDateTime.now().format(dateTimeFormatter);
 
         Manage manage = new Manage(comment);
-        manage.setTeam(team);
+        //manage.setProject(project);
 
         for (Snapshot snapshot : snapshots) {
             String code = "";

@@ -58,10 +58,6 @@ public class UserController {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         response.addCookie(cookie);
 
-        if(loginDTO.getUserId().equals("admin@sangmyung.kr")) {
-            return "admin";
-        }
-
         return "success";
     }
 
