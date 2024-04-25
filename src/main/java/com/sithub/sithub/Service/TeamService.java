@@ -51,6 +51,19 @@ public class TeamService {
         return "success";
     }
 
+    public List<String> teamList(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Could not found id : " + userId));
+
+        List<String> result = new ArrayList<>();
+
+        for(Team team : user.getTeams()) {
+            result.add(team.getName());
+        }
+
+        return result;
+    }
+
     public List<String> userList(String teamName) {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new NotFoundException("Could not found id : " + teamName));

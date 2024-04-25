@@ -110,13 +110,14 @@ public class SnapshotService {
     public void uploadToS3(String teamName, String projectName, String comment) throws IOException {
         List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
 
-
+        Project project = projectRepository.findProjectByName(projectName)
+                .orElseThrow(() -> new NotFoundException("Could not found"));
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String current_date = LocalDateTime.now().format(dateTimeFormatter);
 
         Manage manage = new Manage(comment);
-        //manage.setProject(project);
+        manage.setProject(project);
 
         for (Snapshot snapshot : snapshots) {
             String code = "";
@@ -133,9 +134,9 @@ public class SnapshotService {
 //            metadata.setContentType(file.getContentType());
 //
 //            amazonS3.putObject(bucket, snapshot.getFileName(), file.getInputStream(), metadata);
-            amazonS3.putObject(bucket,teamName + current_date + "/" + snapshot.getFileName(), code);
+            amazonS3.putObject(bucket,teamName + "-" + projectName + current_date + "/" + snapshot.getFileName(), code);
 
-            File file = new File(teamName + current_date + "/" + snapshot.getFileName());
+            File file = new File(teamName + "-" + projectName + current_date + "/" + snapshot.getFileName());
             file.setManage(manage);
 
             System.out.println("upload: " + snapshot.getFileName());

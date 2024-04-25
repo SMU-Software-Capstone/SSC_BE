@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+    Optional<Project> findProjectByName(@Param("name") String name);
+
     @Query("select p from Project p " +
             "where p.team.id = :teamId")
     List<Project> findProjectsByTeamId(@Param("teamId") Long teamId);

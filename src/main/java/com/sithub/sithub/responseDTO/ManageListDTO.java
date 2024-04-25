@@ -9,10 +9,12 @@ import java.time.LocalDateTime;
 @ToString
 public class ManageListDTO {
     private Long manageId;
+    private String comment;
     private LocalDateTime createDate;
 
-    public ManageListDTO(Long manageId, LocalDateTime createDate) {
+    public ManageListDTO(Long manageId, String comment, LocalDateTime createDate) {
         this.manageId = manageId;
+        this.comment = comment;
         this.createDate = createDate;
     }
 }
