@@ -21,4 +21,10 @@ public class ManageController {
                                     @PathVariable("projectName") String projectName) {
         return manageService.getManageList(teamName, projectName);
     }
+
+    // 해당 커밋 파일목록 조회
+    @GetMapping("/{manageId}")
+    public List<String> fileList(@PathVariable("manageId") Long manageId) {
+        return manageService.getFileList(manageId);
+    }
 }
