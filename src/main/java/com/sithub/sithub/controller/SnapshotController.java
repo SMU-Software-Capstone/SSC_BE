@@ -43,10 +43,10 @@ public class SnapshotController {
 
     //새 프로젝트 파일 받기
     @PostMapping("/{teamName}/snapshots/save")
-    public void save(
+    public List<String> save(
             @RequestPart(value = "files") List<MultipartFile> files,
             @PathVariable("teamName") String teamName) throws IOException {
-        snapshotService.saveFile(files, teamName);
+        return snapshotService.saveFile(files, teamName);
     }
 
     //작업중인 프로젝트 S3에 업로드
@@ -62,9 +62,10 @@ public class SnapshotController {
     }
 
     // 선택한 파일 코드 반환
-    @GetMapping("/snapshot/{snapshotId}")
-    public String snapshot(@PathVariable("snapshotId") String snapshotId) {
-        return snapshotService.getSnapshot(snapshotId);
+    @GetMapping("/snapshot/{teamName}")
+    public String snapshot(@PathVariable("teamName") String teamName,
+                           @RequestParam("fileName") String fileName) {
+        return snapshotService.getSnapshot(teamName, fileName);
     }
 
     @GetMapping("/test/file")

@@ -77,8 +77,9 @@ public class SnapshotService {
         }
     }
 
-    public void saveFile(List<MultipartFile> files, String teamName) throws IOException {
+    public List<String> saveFile(List<MultipartFile> files, String teamName) throws IOException {
         List<Snapshot> prevSnapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+        List<String> result = new ArrayList<>();
 
         // 이전에 진행중이던 작업 내용은 삭제
         for (Snapshot prevSnapshot : prevSnapshots) {
@@ -103,8 +104,11 @@ public class SnapshotService {
             }
 
             saveSnapshot(teamName, file.getOriginalFilename(), lineByCode, file.getContentType());
+            result.add(file.getOriginalFilename());
             bufferedReader.close();
         }
+
+        return result;
     }
 
     public void uploadToS3(String teamName, String projectName, String comment) throws IOException {
@@ -152,9 +156,9 @@ public class SnapshotService {
                 snapshot -> new SnapshotListDTO(snapshot.getId(), snapshot.getFileName())).toList();
     }
 
-    public String getSnapshot(String snapshotId) {
-        Snapshot snapshot = snapshotRepository.findById(snapshotId)
-                .orElseThrow(() -> new NotFoundException("Could not found id : " + snapshotId));
+    public String getSnapshot(String teamName, String fileName) {
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(teamName, fileName)
+                .orElseThrow(() -> new NotFoundException("Could not found id "));
         String code = "";
 
         for(String line : snapshot.getCode()) {
@@ -176,7 +180,8 @@ public class SnapshotService {
     }
 
     public void removeSnapShot(CreateSnapshotDTO createSnapshotDTO) {
-        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName());
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName())
+                .orElseThrow(() -> new NotFoundException("Could not found"));
         snapshotRepository.delete(snapshot);
     }
 
