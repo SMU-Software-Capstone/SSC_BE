@@ -19,12 +19,12 @@ public class DataInit {
 
     @PostConstruct
     public void init() {
-        User user1 = new User("user1", "user1", "1234");
-        User user2 = new User("user2", "user2", "1234");
-        User user3 = new User("user3", "user3", "1234");
-
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
+//        User user1 = new User("user1", "user1", "1234");
+//        User user2 = new User("user2", "user2", "1234");
+//        User user3 = new User("user3", "user3", "1234");
+//
+//        userRepository.save(user1);
+//        userRepository.save(user2);
+//        userRepository.save(user3);
     }
 }
