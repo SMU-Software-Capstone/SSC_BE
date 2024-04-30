@@ -57,7 +57,7 @@ public class SnapshotController {
 
     // 작업중인 프로젝트 파일 목록
     @GetMapping("/snapshot/list/{teamName}")
-    public List<SnapshotListDTO> snapshotList(@PathVariable("teamName") String teamName) {
+    public List<String> snapshotList(@PathVariable("teamName") String teamName) {
         return snapshotService.getSnapshotList(teamName);
     }
 
