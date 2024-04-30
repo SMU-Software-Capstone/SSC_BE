@@ -25,7 +25,9 @@ public class MessagingScheduler {
         //log.info("checkNotice call");
         System.out.println("message = " + code);
         try{
-            messagingTemplate.convertAndSend("/subscribe/notice/" + code.getRoomId(), SendCodeDTO.of(code));
+            messagingTemplate.convertAndSend(
+                    "/subscribe/notice/" + code.getTeamName() + "/" + code.getFileName(),
+                    SendCodeDTO.of(code));
         }catch(Exception ex){
             log.error(ex.getMessage());
         }

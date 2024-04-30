@@ -8,9 +8,11 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class ChangeCodeDTO {
-    private String  roomId;
+    private String teamName;
 
     private String code;
+
+    private String fileName;
 
     private int line;
 }
