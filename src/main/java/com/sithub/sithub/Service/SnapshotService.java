@@ -149,11 +149,10 @@ public class SnapshotService {
         manageRepository.save(manage);
     }
 
-    public List<SnapshotListDTO> getSnapshotList(String teamName) {
+    public List<String> getSnapshotList(String teamName) {
         List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
 
-        return snapshots.stream().map(
-                snapshot -> new SnapshotListDTO(snapshot.getId(), snapshot.getFileName())).toList();
+        return snapshots.stream().map(snapshot -> snapshot.getFileName()).toList();
     }
 
     public String getSnapshot(String teamName, String fileName) {
