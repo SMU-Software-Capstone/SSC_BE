@@ -31,20 +31,19 @@ public class DataInit {
     @PostConstruct
     public void init() {
         // 유저 데이터 생성
-
         User user1 = new User("user1", "user1", "1234");
         User user2 = new User("user2", "user2", "1234");
         User user3 = new User("user3", "user3", "1234");
 
+        // 팀 데이터 생성
+        Team team = new Team("team1");
+        user1.addTeam(team);
+
+        teamRepository.save(team);
+
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
-
-        // 팀 데이터 생성
-        Team team = new Team("team1");
-        teamRepository.save(team);
-
-        user1.addTeam(team);
 
         // 프로젝트 데이터 생성
         Project project = new Project("sithub");
@@ -80,5 +79,7 @@ public class DataInit {
         }
         manageRepository.save(manage1);
         manageRepository.save(manage2);
+
+
     }
 }
