@@ -42,11 +42,12 @@ public class SnapshotController {
     }
 
     //새 프로젝트 파일 받기
-    @PostMapping("/{teamName}/snapshots/save")
+    @PostMapping("/{teamName}/{projectName}/snapshots/save")
     public List<String> save(
             @RequestPart(value = "files") List<MultipartFile> files,
-            @PathVariable("teamName") String teamName) throws IOException {
-        return snapshotService.saveFile(files, teamName);
+            @PathVariable("teamName") String teamName,
+            @PathVariable("projectName") String projectName) throws IOException {
+        return snapshotService.saveFile(files, teamName, projectName);
     }
 
     //작업중인 프로젝트 S3에 업로드
@@ -56,16 +57,18 @@ public class SnapshotController {
     }
 
     // 작업중인 프로젝트 파일 목록
-    @GetMapping("/snapshot/list/{teamName}")
-    public List<String> snapshotList(@PathVariable("teamName") String teamName) {
-        return snapshotService.getSnapshotList(teamName);
+    @GetMapping("/snapshot/list/{teamName}/{projectName}")
+    public List<String> snapshotList(@PathVariable("teamName") String teamName,
+                                     @PathVariable("projectName") String projectName) {
+        return snapshotService.getSnapshotList(teamName, projectName);
     }
 
     // 선택한 파일 코드 반환
-    @GetMapping("/snapshot/{teamName}")
+    @GetMapping("/snapshot/{teamName}/{projectName}")
     public List<String> snapshot(@PathVariable("teamName") String teamName,
-                           @RequestParam("fileName") String fileName) {
-        return snapshotService.getSnapshot(teamName, fileName);
+                                 @PathVariable("projectName") String projectName,
+                                 @RequestParam("fileName") String fileName) {
+        return snapshotService.getSnapshot(teamName, fileName, projectName);
     }
 
     @GetMapping("/test/file")

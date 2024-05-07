@@ -17,11 +17,12 @@ public class Snapshot {
     @Id
     private String id;
 
-    public Snapshot(String roomId, String fileName, List<String> code, String contentType) {
+    public Snapshot(String roomId, String fileName, List<String> code, String contentType, String projectName) {
         this.roomId = roomId;
         this.fileName = fileName;
         this.code = code;
         this.contentType = contentType;
+        this.projectName = projectName;
     }
 
     public Snapshot(String roomId, String fileName) {
@@ -30,13 +31,14 @@ public class Snapshot {
     }
 
     private String roomId;
+
+    private String projectName;
+
     private String fileName;
 
-
-
     private String contentType;
-    private List<String> code;
 
+    private List<String> code;
 
     public void updateCode(String updateType, String newCode, int lineNumber) {
         if (lineNumber < 0 || lineNumber > code.size()) {
@@ -57,8 +59,4 @@ public class Snapshot {
             throw new IllegalArgumentException("Invalid update type");
         }
     }
-
-
-
-
 }
