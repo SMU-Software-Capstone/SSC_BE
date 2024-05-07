@@ -69,10 +69,10 @@ public class SnapshotService {
     }
 
 
-    public void updateCodes(String roomId, String code, int lineNumber) {
+    public void updateCodes(String roomId, String updateType, String code, int lineNumber) {
         Snapshot snapshot = snapshotRepository.findByRoomId(roomId);
         if(snapshot != null) {
-            snapshot.updateCode(code, lineNumber);
+            snapshot.updateCode(updateType, code, lineNumber);
             snapshotRepository.save(snapshot);
         }
     }

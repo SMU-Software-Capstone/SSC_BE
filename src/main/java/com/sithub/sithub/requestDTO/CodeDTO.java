@@ -6,6 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CodeDTO {
-    private String code;
+    private String updateType;
     private int lineNumber;
+    private String code;
+
 }

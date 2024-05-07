@@ -37,7 +37,7 @@ public class SnapshotController {
     //해당 방에서 코드를 수정했을때 저장
     @PatchMapping("/code/{roomId}")
     public void updateCode(@PathVariable("roomId") String roomId, @RequestBody CodeDTO code) {
-        snapshotService.updateCodes(roomId, code.getCode(), code.getLineNumber());
+        snapshotService.updateCodes(roomId, code.getUpdateType(), code.getCode(), code.getLineNumber());
         //mariaService.updateCodes(roomId, code.getCode());
     }
 
