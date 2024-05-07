@@ -11,5 +11,7 @@ public interface SnapshotRepository extends MongoRepository<Snapshot, String> {
 
     List<Snapshot> findSnapshotsByRoomId(String roomId);
 
-    Optional<Snapshot> findByRoomIdAndFileName(String roomId, String fileName);
+    List<Snapshot> findSnapshotsByRoomIdAndProjectName(String roomId, String projectName);
+
+    Optional<Snapshot> findByRoomIdAndFileNameAndProjectName(String roomId, String fileName, String projectName);
 }

@@ -49,8 +49,8 @@ public class SnapshotService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public void saveSnapshot(String roomId, String fileName, List<String> code, String contentType) {
-        Snapshot snapshot = new Snapshot(roomId, fileName, code, contentType);
+    public void saveSnapshot(String roomId, String fileName, List<String> code, String contentType, String projectName) {
+        Snapshot snapshot = new Snapshot(roomId, fileName, code, contentType, projectName);
         snapshotRepository.save(snapshot);
     }
 
@@ -77,8 +77,8 @@ public class SnapshotService {
         }
     }
 
-    public List<String> saveFile(List<MultipartFile> files, String teamName) throws IOException {
-        List<Snapshot> prevSnapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+    public List<String> saveFile(List<MultipartFile> files, String teamName, String projectName) throws IOException {
+        List<Snapshot> prevSnapshots = snapshotRepository.findSnapshotsByRoomIdAndProjectName(teamName, projectName);
         List<String> result = new ArrayList<>();
 
         // 이전에 진행중이던 작업 내용은 삭제
@@ -103,7 +103,7 @@ public class SnapshotService {
                 lineByCode.add(line);
             }
 
-            saveSnapshot(teamName, file.getOriginalFilename(), lineByCode, file.getContentType());
+            saveSnapshot(teamName, file.getOriginalFilename(), lineByCode, file.getContentType(), projectName);
             result.add(file.getOriginalFilename());
             bufferedReader.close();
         }
@@ -149,14 +149,14 @@ public class SnapshotService {
         manageRepository.save(manage);
     }
 
-    public List<String> getSnapshotList(String teamName) {
-        List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+    public List<String> getSnapshotList(String teamName, String projectName) {
+        List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomIdAndProjectName(teamName, projectName);
 
         return snapshots.stream().map(snapshot -> snapshot.getFileName()).toList();
     }
 
-    public List<String> getSnapshot(String teamName, String fileName) {
-        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(teamName, fileName)
+    public List<String> getSnapshot(String teamName, String fileName, String projectName) {
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileNameAndProjectName(teamName, fileName, projectName)
                 .orElseThrow(() -> new NotFoundException("Could not found id "));
 
         return snapshot.getCode();
@@ -174,9 +174,10 @@ public class SnapshotService {
     }
 
     public void removeSnapShot(CreateSnapshotDTO createSnapshotDTO) {
-        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName())
-                .orElseThrow(() -> new NotFoundException("Could not found"));
-        snapshotRepository.delete(snapshot);
+        // 나중에 수정
+//        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName())
+//                .orElseThrow(() -> new NotFoundException("Could not found"));
+//        snapshotRepository.delete(snapshot);
     }
 
 }
