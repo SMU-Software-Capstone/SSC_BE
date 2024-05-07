@@ -155,16 +155,11 @@ public class SnapshotService {
         return snapshots.stream().map(snapshot -> snapshot.getFileName()).toList();
     }
 
-    public String getSnapshot(String teamName, String fileName) {
+    public List<String> getSnapshot(String teamName, String fileName) {
         Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(teamName, fileName)
                 .orElseThrow(() -> new NotFoundException("Could not found id "));
-        String code = "";
 
-        for(String line : snapshot.getCode()) {
-            code = code.concat(line).concat("\n");
-        }
-
-        return code;
+        return snapshot.getCode();
     }
 
     public String test() {
