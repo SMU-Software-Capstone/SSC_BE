@@ -63,7 +63,7 @@ public class SnapshotController {
 
     // 선택한 파일 코드 반환
     @GetMapping("/snapshot/{teamName}")
-    public String snapshot(@PathVariable("teamName") String teamName,
+    public List<String> snapshot(@PathVariable("teamName") String teamName,
                            @RequestParam("fileName") String fileName) {
         return snapshotService.getSnapshot(teamName, fileName);
     }
