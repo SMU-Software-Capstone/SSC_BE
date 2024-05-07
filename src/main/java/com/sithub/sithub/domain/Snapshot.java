@@ -38,12 +38,26 @@ public class Snapshot {
     private List<String> code;
 
 
-    public void updateCode(String newCode, int lineNumber) {
-        if (lineNumber < 0 || lineNumber >= code.size()) {
+    public void updateCode(String updateType, String newCode, int lineNumber) {
+        if (lineNumber < 0 || lineNumber > code.size()) {
             throw new IndexOutOfBoundsException("Invalid line number");
         }
-        code.set(lineNumber, newCode);
+
+        if (updateType.equals("create")) {
+            if (lineNumber == code.size()-1) {
+                code.add(newCode);
+            } else {
+                code.add(lineNumber, newCode);
+            }
+        } else if (updateType.equals("delete")) {
+            code.remove(lineNumber);
+        } else if (updateType.equals("update")) {
+            code.set(lineNumber, newCode);
+        } else {
+            throw new IllegalArgumentException("Invalid update type");
+        }
     }
+
 
 
 
