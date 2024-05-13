@@ -68,11 +68,14 @@ public class SnapshotService {
     }
 
 
-    public void updateCodes(String roomId, String updateType, String code, int lineNumber) {
-        Snapshot snapshot = snapshotRepository.findByRoomId(roomId);
+    public void updateCodes(String teamName, String updateType, String code, String fileName, String projectName, int lineNumber) {
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileNameAndProjectName(teamName, fileName, projectName)
+                .orElseThrow(() -> new NotFoundException("Could not found id "));
+
         if(snapshot != null) {
             snapshot.updateCode(updateType, code, lineNumber);
             snapshotRepository.save(snapshot);
+            System.out.println("snapshot = " + snapshot.getCode());
         }
     }
 
@@ -154,11 +157,17 @@ public class SnapshotService {
         return snapshots.stream().map(snapshot -> snapshot.getFileName()).toList();
     }
 
-    public List<String> getSnapshot(String teamName, String fileName, String projectName) {
+    public String getSnapshot(String teamName, String fileName, String projectName) {
         Snapshot snapshot = snapshotRepository.findByRoomIdAndFileNameAndProjectName(teamName, fileName, projectName)
                 .orElseThrow(() -> new NotFoundException("Could not found id "));
+        List<String> code = snapshot.getCode();
+        String result = "";
 
-        return snapshot.getCode();
+        for (String s : code) {
+            result += (s + "\n");
+        }
+
+        return result;
     }
 
     public List<String> changeSnapshot(String teamName, String projectName, Long manageId) throws IOException {

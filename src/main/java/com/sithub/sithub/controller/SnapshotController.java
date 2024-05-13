@@ -35,11 +35,11 @@ public class SnapshotController {
     }
 
     //해당 방에서 코드를 수정했을때 저장
-    @PatchMapping("/code/{roomId}")
-    public void updateCode(@PathVariable("roomId") String roomId, @RequestBody CodeDTO code) {
-        snapshotService.updateCodes(roomId, code.getUpdateType(), code.getCode(), code.getLineNumber());
-        //mariaService.updateCodes(roomId, code.getCode());
-    }
+//    @PatchMapping("/code/{roomId}")
+//    public void updateCode(@PathVariable("roomId") String roomId, @RequestBody CodeDTO code) {
+//        snapshotService.updateCodes(roomId, code.getUpdateType(), code.getCode(), code.get code.getLineNumber());
+//        //mariaService.updateCodes(roomId, code.getCode());
+//    }
 
     //새 프로젝트 파일 받기
     @PostMapping("/{teamName}/{projectName}/snapshots/save")
@@ -65,7 +65,7 @@ public class SnapshotController {
 
     // 선택한 파일 코드 반환
     @GetMapping("/snapshot/{teamName}/{projectName}")
-    public List<String> snapshot(@PathVariable("teamName") String teamName,
+    public String snapshot(@PathVariable("teamName") String teamName,
                                  @PathVariable("projectName") String projectName,
                                  @RequestParam("fileName") String fileName) {
         return snapshotService.getSnapshot(teamName, fileName, projectName);

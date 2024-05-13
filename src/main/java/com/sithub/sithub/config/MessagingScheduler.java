@@ -1,5 +1,6 @@
 package com.sithub.sithub.config;
 
+import com.sithub.sithub.Service.SnapshotService;
 import com.sithub.sithub.requestDTO.ChangeCodeDTO;
 import com.sithub.sithub.responseDTO.SendCodeDTO;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 public class MessagingScheduler {
     private SimpMessagingTemplate messagingTemplate;
 
+    private final SnapshotService snapshotService;
+
     @Autowired
     public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
@@ -22,9 +25,8 @@ public class MessagingScheduler {
 
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC, groupId = "${kafka.group.id:${random.uuid}}")
     public void checkNotice(ChangeCodeDTO code){
-        //log.info("checkNotice call");
-        System.out.println("message = " + code);
         try{
+            snapshotService.updateCodes(code.getTeamName(), code.getUpdateType(), code.getCode(), code.getFileName(), code.getProjectName(), code.getLine());
             messagingTemplate.convertAndSend(
                     "/subscribe/notice/" + code.getTeamName() + "/" + code.getFileName(),
                     SendCodeDTO.of(code));

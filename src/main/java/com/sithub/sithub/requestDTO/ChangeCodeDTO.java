@@ -1,5 +1,6 @@
 package com.sithub.sithub.requestDTO;
 
+import com.sithub.sithub.responseDTO.LineDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -10,9 +11,17 @@ import lombok.ToString;
 public class ChangeCodeDTO {
     private String teamName;
 
+    private String projectName;
+
     private String code;
 
     private String fileName;
 
     private int line;
+
+    private int start;
+
+    private int end;
+
+    private String updateType;
 }

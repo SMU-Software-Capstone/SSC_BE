@@ -12,17 +12,21 @@ public class SendCodeDTO {
 
     private String code;
 
-    private int line;
+    private int start;
 
-    public SendCodeDTO(String code, int line) {
+    private int end;
+
+    public SendCodeDTO(String code, int start, int end) {
         this.code = code;
-        this.line = line;
+        this.start = start;
+        this.end = end;
     }
 
     public static SendCodeDTO of(ChangeCodeDTO code) {
         return new SendCodeDTO(
                 code.getCode(),
-                code.getLine()
+                code.getStart(),
+                code.getEnd()
         );
     }
 }
