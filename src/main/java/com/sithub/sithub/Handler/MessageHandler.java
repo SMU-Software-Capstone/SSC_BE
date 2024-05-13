@@ -35,6 +35,7 @@ public class MessageHandler {
 
     @MessageMapping("/message")
     public void greeting(ChangeCodeDTO code) throws Exception {
+        System.out.println("code = " + code);
         kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, code).get();
     }
 
