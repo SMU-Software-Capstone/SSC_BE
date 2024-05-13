@@ -1,16 +1,12 @@
 package com.sithub.sithub.Service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
-import com.sithub.sithub.Repository.FileRepository;
-import com.sithub.sithub.Repository.ManageRepository;
-import com.sithub.sithub.Repository.ProjectRepository;
-import com.sithub.sithub.Repository.TeamRepository;
-import com.sithub.sithub.domain.File;
-import com.sithub.sithub.domain.Manage;
-import com.sithub.sithub.domain.Project;
-import com.sithub.sithub.domain.Team;
+import com.amazonaws.services.s3.AmazonS3;
+import com.sithub.sithub.Repository.*;
+import com.sithub.sithub.domain.*;
 import com.sithub.sithub.responseDTO.ManageListDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +21,8 @@ public class ManageService {
     private final FileRepository fileRepository;
 
     private final ManageRepository manageRepository;
+
+    private final SnapshotRepository snapshotRepository;
 
     private final ProjectRepository projectRepository;
 
@@ -55,4 +53,7 @@ public class ManageService {
 
         return result;
     }
+
+    // 해당 커밋을 불러와서 스냅샷에 저장 후 에디터에 반영
+
 }
