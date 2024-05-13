@@ -71,6 +71,15 @@ public class SnapshotController {
         return snapshotService.getSnapshot(teamName, fileName, projectName);
     }
 
+    // 커밋로그에서 선택하여 에디터 시작
+    @PostMapping("/snapshot/change")
+    public List<String> changeSnapshot(@RequestBody ChangeSnapshotDTO dto) throws IOException {
+        return snapshotService.changeSnapshot(
+                dto.getTeamName(),
+                dto.getProjectName(),
+                dto.getCommitId());
+    }
+
     @GetMapping("/test/file")
     public String test() {
         return snapshotService.test();

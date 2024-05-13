@@ -3,10 +3,7 @@ package com.sithub.sithub.Service;
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.sithub.sithub.Repository.ManageRepository;
-import com.sithub.sithub.Repository.ProjectRepository;
-import com.sithub.sithub.Repository.SnapshotRepository;
-import com.sithub.sithub.Repository.TeamRepository;
+import com.sithub.sithub.Repository.*;
 import com.sithub.sithub.config.StringToMultipartFileConverter;
 import com.sithub.sithub.domain.*;
 import com.sithub.sithub.requestDTO.CreateSnapshotDTO;
@@ -39,6 +36,8 @@ public class SnapshotService {
     private final SnapshotRepository snapshotRepository;
 
     private final TeamRepository teamRepository;
+
+    private final FileRepository fileRepository;
 
     private final ManageRepository manageRepository;
 
@@ -160,6 +159,35 @@ public class SnapshotService {
                 .orElseThrow(() -> new NotFoundException("Could not found id "));
 
         return snapshot.getCode();
+    }
+
+    public List<String> changeSnapshot(String teamName, String projectName, Long manageId) throws IOException {
+        List<File> files = fileRepository.findFilesByManageId(manageId);
+        List<Snapshot> prevSnapshots = snapshotRepository.findSnapshotsByRoomIdAndProjectName(teamName, projectName);
+        List<String> result = new ArrayList<>();
+
+        // 이전에 진행중이던 작업 내용은 삭제
+        for (Snapshot prevSnapshot : prevSnapshots) {
+            snapshotRepository.delete(prevSnapshot);
+        }
+
+        for (File file : files) {
+            String code = amazonS3.getObjectAsString(bucket, file.getName());
+            BufferedReader bufferedReader = new BufferedReader(new StringReader(code));
+
+            String line;
+            List<String> lineByCode = new ArrayList<>();
+
+            while((line = bufferedReader.readLine()) != null) {
+                lineByCode.add(line);
+            }
+
+            saveSnapshot(teamName, file.getName(), lineByCode, "content", projectName);
+
+            result.add(file.getName());
+        }
+
+        return result;
     }
 
     public String test() {
