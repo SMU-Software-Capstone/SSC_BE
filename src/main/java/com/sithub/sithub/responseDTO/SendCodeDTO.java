@@ -14,11 +14,14 @@ public class SendCodeDTO {
 
     private String code;
 
+    private String type;
+
     private int line;
 
-    public SendCodeDTO(String nickname, String code, int line) {
+    public SendCodeDTO(String nickname, String code, String type, int line) {
         this.code = code;
         this.line = line;
+        this.type = type;
         this.nickname = nickname;
     }
 
@@ -26,6 +29,7 @@ public class SendCodeDTO {
         return new SendCodeDTO(
                 code.getNickname(),
                 code.getCode(),
+                code.getUpdateType(),
                 code.getLine()
         );
     }
