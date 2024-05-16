@@ -22,9 +22,9 @@ public class SendCodeDTO {
         this.end = end;
     }
 
-    public static SendCodeDTO of(ChangeCodeDTO code) {
+    public static SendCodeDTO of(ChangeCodeDTO code, String result) {
         return new SendCodeDTO(
-                code.getCode(),
+                result,
                 code.getStart(),
                 code.getEnd()
         );

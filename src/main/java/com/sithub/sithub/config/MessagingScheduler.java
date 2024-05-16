@@ -26,10 +26,10 @@ public class MessagingScheduler {
     @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC, groupId = "${kafka.group.id:${random.uuid}}")
     public void checkNotice(ChangeCodeDTO code){
         try{
-            snapshotService.updateCodes(code.getTeamName(), code.getUpdateType(), code.getCode(), code.getFileName(), code.getProjectName(), code.getLine());
+            String result = snapshotService.updateCodes(code.getTeamName(), code.getUpdateType(), code.getCode(), code.getFileName(), code.getProjectName(), code.getLine());
             messagingTemplate.convertAndSend(
                     "/subscribe/notice/" + code.getTeamName() + "/" + code.getFileName(),
-                    SendCodeDTO.of(code));
+                    SendCodeDTO.of(code, result));
         }catch(Exception ex){
             log.error(ex.getMessage());
         }
