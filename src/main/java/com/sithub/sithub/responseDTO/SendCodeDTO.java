@@ -10,23 +10,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SendCodeDTO {
 
+    private String nickname;
+
     private String code;
 
-    private int start;
+    private int line;
 
-    private int end;
-
-    public SendCodeDTO(String code, int start, int end) {
+    public SendCodeDTO(String nickname, String code, int line) {
         this.code = code;
-        this.start = start;
-        this.end = end;
+        this.line = line;
+        this.nickname = nickname;
     }
 
-    public static SendCodeDTO of(ChangeCodeDTO code, String result) {
+    public static SendCodeDTO of(ChangeCodeDTO code) {
         return new SendCodeDTO(
-                result,
-                code.getStart(),
-                code.getEnd()
+                code.getNickname(),
+                code.getCode(),
+                code.getLine()
         );
     }
 }

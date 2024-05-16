@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class ChangeCodeDTO {
+    private String nickname;
+
     private String teamName;
 
     private String projectName;

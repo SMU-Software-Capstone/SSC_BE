@@ -1,9 +1,11 @@
 package com.sithub.sithub.controller;
 
 import com.sithub.sithub.Service.UserService;
+import com.sithub.sithub.config.Util;
 import com.sithub.sithub.requestDTO.UserDTO;
 import com.sithub.sithub.requestDTO.LoginDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,6 +17,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
+    private final Util util;
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+
     private final UserService userService;
 
 
@@ -61,4 +68,8 @@ public class UserController {
         return "success";
     }
 
+    @GetMapping("/nickname")
+    public String nickname(@CookieValue("token") String token) {
+        return util.getUserStringId(token, secretKey);
+    }
 }
