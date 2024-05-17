@@ -1,10 +1,7 @@
 package com.sithub.sithub.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,8 +12,8 @@ import java.io.OutputStreamWriter;
 @RequestMapping("/complie")
 @RequiredArgsConstructor
 public class ComplieController {
-    @GetMapping("/runPython")
-    public String runPythonScript(@RequestParam(value = "code") String code) {
+    @PutMapping("/runPython")
+    public String runPythonScript(@RequestBody String code) {
         StringBuilder output = new StringBuilder();
         try {
             // Python 코드 실행
