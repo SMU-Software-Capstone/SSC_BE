@@ -40,21 +40,23 @@ public class Snapshot {
 
     private List<String> code;
 
-    public void updateCode(String updateType, String newCode, int lineNumber) {
+    public void updateCode(String updateType, List<String> newCode, int lineNumber) {
         if (lineNumber < 0 || lineNumber > code.size()) {
             throw new IndexOutOfBoundsException("Invalid line number");
         }
 
         if (updateType.equals("create")) {
+            //새로운 라인 생성
             if (lineNumber == code.size()-1) {
-                code.add(newCode);
-            } else {
-                code.add(lineNumber, newCode);
+                code.add(newCode.get(0));
+            } else {    //중간값에 넣기
+                code.set(lineNumber-1, newCode.get(0));
+                code.add(lineNumber, newCode.get(1));
             }
         } else if (updateType.equals("delete")) {
             code.remove(lineNumber);
         } else if (updateType.equals("update")) {
-            code.set(lineNumber, newCode);
+            code.set(lineNumber, newCode.get(0));
         } else {
             throw new IllegalArgumentException("Invalid update type");
         }
