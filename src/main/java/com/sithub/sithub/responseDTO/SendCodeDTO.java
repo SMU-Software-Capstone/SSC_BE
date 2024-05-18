@@ -28,7 +28,7 @@ public class SendCodeDTO {
     public static SendCodeDTO of(ChangeCodeDTO code) {
         return new SendCodeDTO(
                 code.getNickname(),
-                code.getCode(),
+                code.getCode().get(0)+code.getCode().get(1),
                 code.getUpdateType(),
                 code.getLine()
         );
