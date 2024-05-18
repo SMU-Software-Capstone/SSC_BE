@@ -55,6 +55,7 @@ public class Snapshot {
             }
         } else if (updateType.equals("delete")) {
             code.remove(lineNumber);
+            code.set(lineNumber-1, code.get(lineNumber-1)+newCode);
         } else if (updateType.equals("update")) {
             code.set(lineNumber, newCode.get(0));
         } else {

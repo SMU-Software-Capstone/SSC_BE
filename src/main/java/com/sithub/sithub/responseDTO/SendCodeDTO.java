@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.sithub.sithub.requestDTO.ChangeCodeDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class SendCodeDTO {
@@ -19,11 +25,17 @@ public class SendCodeDTO {
 
     private int line;
 
-    public SendCodeDTO(String nickname, List<String> code, String type, int line) {
-        this.code = code;
-        this.line = line;
-        this.type = type;
+    private int cursorStart;
+
+    private int cursorEnd;
+
+    public SendCodeDTO(String nickname, List<String> code, String type, int line, int cursorStart, int cursorEnd) {
         this.nickname = nickname;
+        this.code = code;
+        this.type = type;
+        this.line = line;
+        this.cursorStart = cursorStart;
+        this.cursorEnd = cursorEnd;
     }
 
     public static SendCodeDTO of(ChangeCodeDTO code) {
@@ -31,7 +43,9 @@ public class SendCodeDTO {
                 code.getNickname(),
                 code.getCode(),
                 code.getUpdateType(),
-                code.getLine()
+                code.getLine(),
+                code.getStart(),
+                code.getEnd()
         );
     }
 }
