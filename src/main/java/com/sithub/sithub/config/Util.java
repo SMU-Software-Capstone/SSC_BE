@@ -39,7 +39,7 @@ public class Util {
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireMs))
-                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 

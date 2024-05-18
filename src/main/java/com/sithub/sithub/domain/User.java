@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @NoArgsConstructor
@@ -22,11 +25,25 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
+    @ManyToMany
+    @JoinTable(name = "user_team",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "team_id"))
+    private List<Team> teams = new ArrayList<>();
+
     public void setRoom(Room room) {
         this.room = room;
 
         if(!room.getUserList().contains(this)) {
             room.getUserList().add(this);
+        }
+    }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+
+        if(!team.getUsers().contains(this)) {
+            team.addUser(this);
         }
     }
 

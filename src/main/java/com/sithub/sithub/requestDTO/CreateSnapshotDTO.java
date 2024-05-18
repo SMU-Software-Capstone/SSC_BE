@@ -3,12 +3,9 @@ package com.sithub.sithub.requestDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class SnapshotRequestDTO {
+public class CreateSnapshotDTO {
     private String roomId;
     private String fileName;
-    private List<String> code;
 }

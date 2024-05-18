@@ -43,8 +43,16 @@ dependencies {
 
 	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 
+	// P6Spy
+	implementation 'p6spy:p6spy:3.9.1'
+	implementation 'com.github.gavlyukovskiy:datasource-decorator-spring-boot-autoconfigure:1.9.0'
+
 	//S3
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+}
+
+jar {
+	enabled = false
 }
 
 tasks.named('test') {

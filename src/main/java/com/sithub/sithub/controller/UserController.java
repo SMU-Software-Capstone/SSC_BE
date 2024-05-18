@@ -1,9 +1,11 @@
 package com.sithub.sithub.controller;
 
 import com.sithub.sithub.Service.UserService;
+import com.sithub.sithub.config.Util;
 import com.sithub.sithub.requestDTO.UserDTO;
 import com.sithub.sithub.requestDTO.LoginDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -13,8 +15,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/user")
 public class UserController {
+    private final Util util;
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+
     private final UserService userService;
 
 
@@ -39,7 +46,7 @@ public class UserController {
         return "Success";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestBody LoginDTO loginDTO){
         String token = userService.login(loginDTO);
 
@@ -58,11 +65,11 @@ public class UserController {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         response.addCookie(cookie);
 
-        if(loginDTO.getUserId().equals("admin@sangmyung.kr")) {
-            return "admin";
-        }
-
         return "success";
     }
 
+    @GetMapping("/nickname")
+    public String nickname(@CookieValue("token") String token) {
+        return util.getUserStringId(token, secretKey);
+    }
 }
