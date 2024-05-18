@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @ToString
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class ChangeCodeDTO {
 
     private String projectName;
 
-    private String code;
+    private List<String> code;
 
     private String fileName;
 
