@@ -27,6 +27,10 @@ public class SnapshotController {
 //        //mariaService.saveSnapshot(mariaDTO.getRoomId(), mariaDTO.getCode());
 //    }
 
+    @GetMapping("/healthy")
+    public String healthy() {
+        return "success";
+    }
 
     //방 들어갔을때 받아가는 데이터
     @GetMapping("/snapshots/{roomId}")
