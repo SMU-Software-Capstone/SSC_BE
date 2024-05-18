@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -12,13 +13,13 @@ public class SendCodeDTO {
 
     private String nickname;
 
-    private String code;
+    private List<String> code;
 
     private String type;
 
     private int line;
 
-    public SendCodeDTO(String nickname, String code, String type, int line) {
+    public SendCodeDTO(String nickname, List<String> code, String type, int line) {
         this.code = code;
         this.line = line;
         this.type = type;
@@ -28,7 +29,7 @@ public class SendCodeDTO {
     public static SendCodeDTO of(ChangeCodeDTO code) {
         return new SendCodeDTO(
                 code.getNickname(),
-                code.getCode().get(0)+code.getCode().get(1),
+                code.getCode(),
                 code.getUpdateType(),
                 code.getLine()
         );

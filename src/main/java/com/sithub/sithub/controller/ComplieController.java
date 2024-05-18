@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/compile")
@@ -18,8 +19,8 @@ public class ComplieController {
     public String runPythonScript(@RequestPart(value = "code") String code) {
         StringBuilder output = new StringBuilder();
         try {
-            // 코드 파일 저장
-            Path tempFile = Files.createTempFile("script", ".py");
+            // 코드 파일 저장 - /tmp 디렉터리를 사용
+            Path tempFile = Paths.get("/tmp/script.py");
             Files.write(tempFile, code.getBytes());
 
             // Python 코드 실행
