@@ -93,7 +93,7 @@ public class SnapshotService {
                 System.out.println("DS: " + file.getName());
                 continue;
             }
-
+            System.out.println(file.getOriginalFilename());
             String code = new String(file.getBytes(), StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(new StringReader(code));
 
@@ -113,7 +113,7 @@ public class SnapshotService {
     }
 
     public void uploadToS3(String teamName, String projectName, String comment) throws IOException {
-        List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomId(teamName);
+        List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomIdAndProjectName(teamName, projectName);
 
         Project project = projectRepository.findProjectByName(projectName)
                 .orElseThrow(() -> new NotFoundException("Could not found"));
@@ -180,6 +180,8 @@ public class SnapshotService {
             snapshotRepository.delete(prevSnapshot);
         }
 
+        System.out.println(files.size());
+
         for (File file : files) {
             String code = amazonS3.getObjectAsString(bucket, file.getName());
             BufferedReader bufferedReader = new BufferedReader(new StringReader(code));
@@ -192,6 +194,7 @@ public class SnapshotService {
             }
 
             saveSnapshot(teamName, file.getName(), lineByCode, "content", projectName);
+            System.out.println(file.getName());
 
             result.add(file.getName());
         }

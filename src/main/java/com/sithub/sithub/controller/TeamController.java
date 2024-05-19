@@ -42,6 +42,7 @@ public class TeamController {
     @GetMapping("/list")
     public List<String> list(@CookieValue("token") String token) {
         Long id = util.getUserId(token, secretKey);
+        System.out.println(id);
         return teamService.teamList(id);
     }
 
