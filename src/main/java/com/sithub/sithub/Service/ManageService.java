@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,7 +35,9 @@ public class ManageService {
         List<ManageListDTO> dtos = project.getManages().stream().map(
                 manage -> new ManageListDTO(
                         manage.getId(), manage.getComment(), manage.getCreateDate())
-        ).toList();
+                )
+                .sorted(Comparator.comparing(ManageListDTO::getCreateDate).reversed()) // CreateDate 기준 내림차순 정렬
+                .collect(Collectors.toList());
 
         for (ManageListDTO dto : dtos) {
             System.out.println("dto = " + dto);

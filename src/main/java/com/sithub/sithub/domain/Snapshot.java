@@ -47,18 +47,25 @@ public class Snapshot {
 
         if (updateType.equals("create")) {
             //새로운 라인 생성
-            if (lineNumber == code.size()-1) {
+            if (lineNumber == code.size() - 1) {
                 code.add(newCode.get(0));
             } else {    //중간값에 넣기
-                code.set(lineNumber-1, newCode.get(0));
+                code.set(lineNumber - 1, newCode.get(0));
                 code.add(lineNumber, newCode.get(1));
             }
         } else if (updateType.equals("delete")) {
+            code.set(lineNumber - 1, code.get(lineNumber - 1) + code.get(lineNumber));
             code.remove(lineNumber);
-            code.set(lineNumber-1, code.get(lineNumber-1)+newCode);
         } else if (updateType.equals("update")) {
             code.set(lineNumber, newCode.get(0));
-        } else {
+        } else if (updateType.equals("paste")) {
+            code.set(lineNumber, code.get(lineNumber) + newCode.get(0));
+
+            for(int i = 1; i < newCode.size(); i++) {
+                code.add(lineNumber + i, newCode.get(i));
+            }
+        }
+        else {
             throw new IllegalArgumentException("Invalid update type");
         }
     }
