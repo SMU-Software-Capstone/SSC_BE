@@ -162,9 +162,10 @@ public class SnapshotService {
         List<String> code = snapshot.getCode();
         String result = "";
 
-        for (String s : code) {
-            result += (s + "\n");
+        for(int i = 0; i < code.size() - 1; i++) {
+            result += (code.get(i) + "\n");
         }
+        result += code.get(code.size() - 1);
 
         return result;
     }
