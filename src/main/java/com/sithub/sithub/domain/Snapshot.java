@@ -47,15 +47,19 @@ public class Snapshot {
 
     private List<String> code = new ArrayList<>();
 
-    public void updateCode(String updateType, List<String> newCode, int lineNumber) {
+    public void updateCode(String updateType, List<String> newCode, int lineNumber, int start, int end) {
         if (lineNumber < 0 || lineNumber > code.size()) {
             throw new IndexOutOfBoundsException("Invalid line number");
         }
 
         if (updateType.equals("create")) {
             //새로운 라인 생성
-            if (lineNumber == code.size() - 1) {
-                code.add(newCode.get(0));
+            System.out.println("code size: " + code.size());
+            if(newCode.size() == 3) {
+                System.out.println("괄호");
+                code.set(lineNumber - 1, newCode.get(0));
+                code.add(lineNumber, newCode.get(1));
+                code.add(lineNumber + 1, newCode.get(2));
             } else {    //중간값에 넣기
                 code.set(lineNumber - 1, newCode.get(0));
                 code.add(lineNumber, newCode.get(1));
@@ -70,6 +74,22 @@ public class Snapshot {
 
             for(int i = 1; i < newCode.size(); i++) {
                 code.add(lineNumber + i, newCode.get(i));
+            }
+        } else if(updateType.equals("position")) {
+
+        } else if(updateType.equals("drag")) {
+            int startCodeIndex = lineNumber;
+            int endCodeIndex = lineNumber + Integer.parseInt(newCode.get(0));
+            int startCodeColumn = start;
+            int endCodeColumn = end;
+
+            String startCode = code.get(startCodeIndex).substring(0, startCodeColumn);
+            String endCode = code.get(endCodeIndex).substring(endCodeColumn);
+
+            code.set(startCodeIndex, startCode + endCode);
+
+            for(int i = 1; i <= Integer.parseInt(newCode.get(0)); i++) {
+                code.remove(startCodeIndex + 1);
             }
         }
         else {

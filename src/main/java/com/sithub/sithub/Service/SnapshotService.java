@@ -68,12 +68,12 @@ public class SnapshotService {
     }
 
 
-    public void updateCodes(String teamName, String updateType, List<String> code, String fileName, String projectName, int lineNumber) {
+    public void updateCodes(String teamName, String updateType, List<String> code, String fileName, String projectName, int lineNumber, int start, int end) {
         Snapshot snapshot = snapshotRepository.findByRoomIdAndFileNameAndProjectName(teamName, fileName, projectName)
                 .orElseThrow(() -> new NotFoundException("Could not found id "));
 
         if(snapshot != null) {
-            snapshot.updateCode(updateType, code, lineNumber);
+            snapshot.updateCode(updateType, code, lineNumber, start, end);
             snapshotRepository.save(snapshot);
         }
     }
