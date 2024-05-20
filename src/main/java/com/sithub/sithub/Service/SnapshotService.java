@@ -209,7 +209,8 @@ public class SnapshotService {
     }
 
     public void createNewSnapShot(CreateSnapshotDTO createSnapshotDTO){
-        Snapshot snapshot = new Snapshot(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName());
+        Snapshot snapshot = new Snapshot(createSnapshotDTO.getRoomId(), createSnapshotDTO.getProjectName(), createSnapshotDTO.getFileName());
+        snapshot.getCode().add("");
         snapshotRepository.save(snapshot);
     }
 

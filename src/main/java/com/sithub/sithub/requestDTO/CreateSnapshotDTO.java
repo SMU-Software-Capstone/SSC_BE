@@ -7,5 +7,8 @@ import lombok.Setter;
 @Setter
 public class CreateSnapshotDTO {
     private String roomId;
+
+    private String projectName;
+
     private String fileName;
 }
