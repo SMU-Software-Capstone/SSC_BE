@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "snapshots")
@@ -30,6 +31,12 @@ public class Snapshot {
         this.fileName = fileName;
     }
 
+    public Snapshot(String roomId, String projectName, String fileName) {
+        this.roomId = roomId;
+        this.projectName = projectName;
+        this.fileName = fileName;
+    }
+
     private String roomId;
 
     private String projectName;
@@ -38,7 +45,7 @@ public class Snapshot {
 
     private String contentType;
 
-    private List<String> code;
+    private List<String> code = new ArrayList<>();
 
     public void updateCode(String updateType, List<String> newCode, int lineNumber) {
         if (lineNumber < 0 || lineNumber > code.size()) {
