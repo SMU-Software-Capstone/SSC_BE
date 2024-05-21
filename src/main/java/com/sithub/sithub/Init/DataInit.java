@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.TimeZone;
+
 @Component
 @RequiredArgsConstructor
 public class DataInit {
@@ -30,6 +32,7 @@ public class DataInit {
 
     @PostConstruct
     public void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
         // 유저 데이터 생성
         User user1 = new User("user1", "user1", "1234");
         User user2 = new User("user2", "user2", "1234");

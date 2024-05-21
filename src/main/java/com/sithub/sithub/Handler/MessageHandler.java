@@ -4,6 +4,7 @@ import com.sithub.sithub.Service.RoomService;
 import com.sithub.sithub.config.KafkaConstants;
 import com.sithub.sithub.config.Util;
 import com.sithub.sithub.requestDTO.ChangeCodeDTO;
+import com.sithub.sithub.requestDTO.FileReloadDTO;
 import com.sithub.sithub.responseDTO.RoomResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,14 @@ public class MessageHandler {
     public void greeting(ChangeCodeDTO code) throws Exception {
         System.out.println("code = " + code);
         kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, code).get();
+    }
+
+    @MessageMapping("/reload")
+    public void reload(FileReloadDTO dto) throws Exception{
+        System.out.println("reload");
+        //kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC).get();
+        System.out.println(dto);
+        messagingTemplate.convertAndSend("/subscribe/notice/" + dto.getTeamName() + "/" + dto.getProjectName(), dto);
     }
 
     @MessageMapping("/exit")

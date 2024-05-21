@@ -23,14 +23,19 @@ public class TeamService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void createTeam(Long userId, String teamName) {
+    public String  createTeam(Long userId, String teamName) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Could not found id : " + userId));
+
+        if(teamRepository.findTeamByName(teamName).isPresent()) {
+            return "fail";
+        }
 
         Team team = new Team(teamName);
         teamRepository.save(team);
 
         user.addTeam(team);
+        return "success";
     }
 
     @Transactional
@@ -45,6 +50,10 @@ public class TeamService {
 
         if(!findTeam.isPresent()) {
             return "Not Found Team";
+        }
+
+        if(findTeam.get().getUsers().contains(findUser.get())) {
+            return "Already Exist";
         }
 
         findUser.get().addTeam(findTeam.get());

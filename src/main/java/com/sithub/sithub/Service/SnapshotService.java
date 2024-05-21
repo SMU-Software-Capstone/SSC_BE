@@ -115,7 +115,7 @@ public class SnapshotService {
     public void uploadToS3(String teamName, String projectName, String comment) throws IOException {
         List<Snapshot> snapshots = snapshotRepository.findSnapshotsByRoomIdAndProjectName(teamName, projectName);
 
-        Project project = projectRepository.findProjectByName(projectName)
+        Project project = projectRepository.findByTeamNameAndName(teamName,projectName)
                 .orElseThrow(() -> new NotFoundException("Could not found"));
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -215,10 +215,11 @@ public class SnapshotService {
     }
 
     public void removeSnapShot(CreateSnapshotDTO createSnapshotDTO) {
+        System.out.println(createSnapshotDTO);
         // 나중에 수정
-//        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName())
-//                .orElseThrow(() -> new NotFoundException("Could not found"));
-//        snapshotRepository.delete(snapshot);
+        Snapshot snapshot = snapshotRepository.findByRoomIdAndFileNameAndProjectName(createSnapshotDTO.getRoomId(), createSnapshotDTO.getFileName(), createSnapshotDTO.getProjectName())
+                .orElseThrow(() -> new NotFoundException("Could not found"));
+        snapshotRepository.delete(snapshot);
     }
 
 }
