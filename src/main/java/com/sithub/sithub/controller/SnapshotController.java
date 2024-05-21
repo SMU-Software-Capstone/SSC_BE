@@ -34,13 +34,6 @@ public class SnapshotController {
         return snapshotService.getSnapshotsByRoomId(roomId);
     }
 
-    //해당 방에서 코드를 수정했을때 저장
-//    @PatchMapping("/code/{roomId}")
-//    public void updateCode(@PathVariable("roomId") String roomId, @RequestBody CodeDTO code) {
-//        snapshotService.updateCodes(roomId, code.getUpdateType(), code.getCode(), code.get code.getLineNumber());
-//        //mariaService.updateCodes(roomId, code.getCode());
-//    }
-
     //새 프로젝트 파일 받기
     @PostMapping("/{teamName}/{projectName}/snapshots/save")
     public List<String> save(
